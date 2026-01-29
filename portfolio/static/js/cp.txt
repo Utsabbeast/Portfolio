@@ -1,0 +1,32 @@
+const unmuteBtn = document.getElementById("unmute-btn");
+let audioContext;
+
+unmuteBtn.addEventListener("click", () => {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    alert("Audio permission granted!");
+  }
+});
+
+// ======= DIVE-IN BUTTON =======
+const diveBtn = document.getElementById("dive-btn");
+diveBtn.addEventListener("click", () => {
+  document.querySelector(".button-container").style.display = "none";
+  alert("Dive In! Website started."); // Replace with real start logic
+});
+
+// ======= DARK/LIGHT MODE =======
+const darkmodeBtn = document.getElementById("darkmode-btn");
+let darkMode = false;
+darkmodeBtn.addEventListener("click", () => {
+  darkMode = !darkMode;
+  document.body.style.background = darkMode 
+    ? "linear-gradient(120deg, #000000, #3a3a3a)"
+    : "linear-gradient(120deg, #2e004f, #4b007f)";
+});
+
+// ======= EXTRA BUTTON =======
+const extraBtn = document.getElementById("extra-btn");
+extraBtn.addEventListener("click", () => {
+  alert("Extra Button Clicked! Customize this action.");
+});

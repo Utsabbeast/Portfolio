@@ -1,0 +1,119 @@
+{% load static %}
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+  <div class="WinAlignment">
+    <div class="site">
+         <div class="checkbox-stage">
+      <div class="checkbox-column" id="checkboxFlow">
+
+        <!-- Sound Permission -->
+        <label class="notebook-checkbox" data-action="sound">
+          <input type="checkbox">
+          <span class="checkmark"></span>
+          <span class="text">
+            <span class="text-content">Allow Sound</span>
+            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
+              <path d="M0,10 H400"></path>
+            </svg>
+          </span>
+        </label>
+
+        <!-- Fullscreen -->
+        <label class="notebook-checkbox" data-action="fullscreen">
+          <input type="checkbox">
+          <span class="checkmark"></span>
+          <span class="text">
+            <span class="text-content">Enable Fullscreen</span>
+            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
+              <path d="M0,10 H400"></path>
+            </svg>
+          </span>
+        </label>
+
+        <!-- Terms -->
+        <label class="notebook-checkbox" data-action="terms">
+          <input type="checkbox">
+          <span class="checkmark"></span>
+          <span class="text">
+            <span class="text-content">Accept Terms & Conditions</span>
+            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
+              <path d="M0,10 H400"></path>
+            </svg>
+          </span>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- SVG filter for chalk effect -->
+    <svg width="0" height="0">
+      <filter id="handDrawnNoise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="8"/>
+        <feDisplacementMap in="SourceGraphic" scale="3"/>
+      </filter>
+    </svg>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Your entire website goes here -->
+    </div>
+  </div>
+</body>
+
+
+
+
+
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="{% static 'js/jave.js' %}"></script>
+</body>
+</html>
