@@ -141,6 +141,7 @@
     /* ─────────── NORMAL → INSPECT (ENTER) ─────────── */
     function enterInspect() {
         if (state !== 'normal') return;
+        playSelect();
 
         state = 'inspect-entry';
         updateArrows();
@@ -172,6 +173,7 @@
     /* ─────────── INSPECT → NORMAL (ENTER again) ─────────── */
     function exitInspect() {
         if (state !== 'inspect') return;
+        playSelect();
 
         site.classList.remove('inspect-active');
         state = 'normal';
@@ -200,14 +202,29 @@
             v.classList.remove('visible');
         });
 
+        playSelect();
+
         const scroll = document.getElementById('credits-scroll');
         if (scroll) {
             scroll.onanimationend = () => {
                 site.classList.add('credits-ending');
                 setTimeout(() => {
-                    window.close();
-                    // Fallback if window.close() is blocked
-                    document.body.innerHTML = '<div style="background:#000; height:100vh; display:flex; align-items:center; justify-content:center; color:#1a1a1a; font-family:monospace; font-size:11px; letter-spacing:4px;">SESSION TERMINATED</div>';
+                    // Show final ratings screen instead of just closing
+                    document.body.innerHTML = `
+                        <div style="background:#000; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8b0000; font-family:'Courier Prime', monospace; text-align:center; animation: fadeIn 2s forwards;">
+                            <div style="font-size:11px; letter-spacing:4px; margin-bottom:20px; color:#1a1a1a;">SESSION TERMINATED</div>
+                            <div style="font-size:18px; letter-spacing:2px; margin-bottom:30px; color:#c0c0c0;">THANK YOU FOR VISITING</div>
+                            <a href="https://forms.gle/SYom1ioTanGXSddz9" target="_blank" 
+                               style="color:#fff; text-decoration:none; border:1px solid #8b0000; padding:12px 24px; font-size:13px; letter-spacing:3px; transition:all 0.3s; background:rgba(139,0,0,0.1); display:inline-block;" 
+                               onmouseover="this.style.background='rgba(139,0,0,0.4)';this.style.boxShadow='0 0 15px rgba(139,0,0,0.5)';" 
+                               onmouseout="this.style.background='rgba(139,0,0,0.1)';this.style.boxShadow='none';">
+                               RATE MY PORTFOLIO
+                            </a>
+                            <style>
+                                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                            </style>
+                        </div>
+                    `;
                 }, 3000);
             };
         }
@@ -247,14 +264,12 @@
     document.addEventListener('keydown', (e) => {
         // Shift + Enter = End Sequence
         if (e.shiftKey && e.key === 'Enter') {
-            playSelect();
             startCredits();
             return;
         }
 
         switch (e.key) {
             case 'Enter':
-                playSelect();
                 if (state === 'normal')  { enterInspect(); return; }
                 if (state === 'inspect') { exitInspect();  return; }
                 break;
@@ -309,15 +324,14 @@
     if (inspectTrigger) {
         inspectTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (state === 'normal')  { playSelect(); enterInspect(); }
-            else if (state === 'inspect') { playSelect(); exitInspect(); }
+            if (state === 'normal')  { enterInspect(); }
+            else if (state === 'inspect') { exitInspect(); }
         });
     }
 
     if (inspectGlass) {
         inspectGlass.addEventListener('click', () => {
             if (state === 'inspect') {
-                playSelect();
                 exitInspect();
             }
         });
@@ -327,7 +341,6 @@
     if (endNormalBtn) {
         endNormalBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            playSelect();
             startCredits();
         });
     }
@@ -345,8 +358,14 @@
         ) return;
 
         if (state === 'normal') {
-            playSelect();
             enterInspect();
+        }
+    });
+
+    // 6. Global Link Click Sound
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('a')) {
+            playSelect();
         }
     });
 
