@@ -1,133 +1,205 @@
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-body {
-  background-color: #000;
-  color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
+    overflow: hidden;
 }
 
 .WinAlignment {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .site {
-  aspect-ratio: 16/9;
-  width: min(100vw, calc(100vh * 16/9));
-  height: 100%;
-  color: #fff;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    aspect-ratio: 16/9;
+    width: min(100vw, calc(100vh * 16/9));
+    height: 100%;
+    position: relative;
+    background: black;
+    overflow: hidden;
 }
 
+/* --- Atmospheric Backgrounds --- */
+@keyframes slowFloat {
+    0% { transform: scale(1.1) translateX(-1.5%); }
+    50% { transform: scale(1.1) translateX(1.5%); }
+    100% { transform: scale(1.1) translateX(-1.5%); }
+}
+
+.bgTerms, .bgSOUND, .bgFULL {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 1;
+}
+
+.terms-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: contrast(130%) saturate(140%) brightness(60%);
+    animation: slowFloat 10s ease-in-out infinite;
+}
+
+.notebook-checkbox.show .bgTerms,
+.notebook-checkbox.show .bgSOUND,
+.notebook-checkbox.show .bgFULL {
+    opacity: 0.35;
+}
+
+/* --- Interactive Permission Text --- */
 .checkbox-stage {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.checkbox-column {
-  position: relative;
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
 }
 
 .notebook-checkbox {
-  display: none;  /* initially hidden */
-  align-items: center;
-  font-family: "Courier New", monospace;
-  font-size: 2.5rem;
-  font-weight: bold;
-  padding-left: 3em;
-  cursor: pointer;
-  color: #f5f5f5;
-  pointer-events: auto;
-  position: relative;
-
-  opacity: 0;
-  transition: opacity 0.8s ease;
+    display: none;
+    position: absolute;
+    inset: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+    font-size: 2.8rem;
+    color: white;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    text-align: center;
 }
 
 .notebook-checkbox.show {
-  display: flex;
-  opacity: 1;
-}
-
-.notebook-checkbox.hide {
-  opacity: 0;
-}
-
-.notebook-checkbox.locked {
-  pointer-events: none;
+    display: flex;
+    opacity: 1;
 }
 
 .notebook-checkbox input {
-  position: absolute;
-  opacity: 0;
+    display: none;
 }
 
-.notebook-checkbox .checkmark {
-  position: absolute;
-  left: 0;
-  top: 0.1em;
-  width: 1.5em;
-  height: 1.5em;
-  border-radius: 10px;
-  border: 3px solid rgba(255,255,255,0.7);
-  background: radial-gradient(rgba(255,255,255,0.9) 65%, transparent 70%);
-  filter: url(#handDrawnNoise);
-}
-
+/* Text Container */
 .notebook-checkbox .text {
-  position: relative;
-  filter: url(#handDrawnNoise);
+    position: relative;
+    z-index: 10;
+    filter: url(#handDrawnNoise);
+    user-select: none;
 }
 
-.notebook-checkbox .cut-line {
-  position: absolute;
-  left: 0;
-  bottom: 15%;
-  width: calc(100% + 15px);
-  height: 1em;
-  stroke: rgba(255,255,255,0.85);
-  stroke-width: 2;
-  fill: none;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+/* --- HOVER EFFECTS --- */
+
+/* Main Text: Dims on hover */
+.text-content {
+    transition: opacity 0.3s ease;
 }
 
-.notebook-checkbox input:checked ~ .text .cut-line {
-  transform: scaleX(1);
+.text-content:hover {
+    color: rgb(107, 107, 107); /* Dims the main text */
 }
 
-.notebook-checkbox input:checked ~ .text {
-  color: rgba(255,255,255,0.6);
+/* "READ" Subtitle: Moves to next line */
+.terms-sub {
+    display: block; 
+    font-size: 0.4em;
+    margin-top: 20px;
+    letter-spacing: 4px;
 }
 
+/* "READ" Link: Pure white on hover */
+.inline-terms-link {
+    text-decoration: none;
+    color: #ff3e3e; /* Original red */
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
 
+.inline-terms-link:hover {
+    color: #ffffff !important; /* Pure White */
+    opacity: 1 !important; /* Ensures it doesn't dim with the parent if you target it */
+}
 
+/* --- Cinema Stage --- */
+.cinema-stage {
+    position: absolute;
+    inset: 0;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 30;
+}
 
+.cinema-stage.hidden {
+    display: none;
+}
 
+.cinema-item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 2s ease;
+    pointer-events: none;
+    display: none; /* Hidden by default */
+    z-index: -1; /* Start behind */
+}
 
+.cinema-item.show {
+    display: block !important;
+    z-index: 9999 !important; /* Bring to the very front */
+    opacity: 1 !important;
+}
 
+/* --- Skip to Folio Button --- */
+@keyframes blink {
+    0%, 100% { opacity: 0.5; } /* Less dimmer */
+    50% { opacity: 0.25; }
+}
 
+#skip-to-folio {
+    display: none; /* shown by JS after permissions */
+    position: absolute;
+    bottom: 22px;
+    right: 28px;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5); /* Less dimmer background */
+    border: 1px solid rgba(180, 0, 0, 0.4); /* Less dimmer border */
+    color: rgba(255, 255, 255, 0.45); /* Less dimmer text */
+    font-family: "Courier New", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 7px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    filter: url(#handDrawnNoise);
+    transition: all 0.3s ease;
+    animation: blink 2.5s infinite ease-in-out;
+}
 
+#skip-to-folio:hover {
+    color: #ffffff;
+    border-color: #ff3e3e;
+    background: rgba(180, 0, 0, 0.3);
+    opacity: 1 !important;
+    animation: none; /* Stop blinking on hover */
+}
 
-
-
-
-
-
+/* Folio iframe: needs pointer events when active */
+#folio-iframe.show {
+    pointer-events: all !important;
+    border: none !important;
+}

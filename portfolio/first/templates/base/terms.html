@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terms & Conditions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/terms.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/Shuriken icon.ico' %}">
+</head>
+
+<body>
+
+<svg height="0" width="0" style="position: absolute;">
+  <filter id="handDrawnNoise">
+    <feTurbulence result="noise" numOctaves="8" baseFrequency="0.1" type="fractalNoise"></feTurbulence>
+    <feDisplacementMap yChannelSelector="G" xChannelSelector="R" scale="3" in2="noise" in="SourceGraphic"></feDisplacementMap>
+  </filter>
+</svg>
+
+<audio id="hoverSound" src="{% static 'audio/hover.mp3' %}" preload="auto"></audio>
+<audio id="bgMusic" src="{% static 'images/TermsBGloop.mp3' %}" loop preload="auto"></audio>
+
+<div class="WinAlignment">
+    <div class="site">
+
+        <video class="bg-video" autoplay muted loop playsinline>
+            <source src="{% static 'images/TermspageBG.mp4' %}" type="video/mp4">
+        </video>
+
+        <div class="vignette"></div>
+        <div class="film-grain"></div>
+
+        <div class="letterbox top"></div>
+        <div class="letterbox bottom"></div>
+
+        <div class="cam-ui rec-indicator"><span class="red-dot"></span> REC</div>
+        <div class="cam-ui timecode" id="timecode">TCR 00:00:00:00</div>
+        <div class="cam-ui sys-ver">SYS.VER.4.0.2 // ENCRYPTED</div>
+
+        <div class="terms-content-wrapper">
+            
+            <div class="terms-header glitch" data-text="TERMS & CONDITIONS">TERMS & CONDITIONS</div>
+
+            <div class="terms-text">
+                <p>
+                    By accessing this cinematic portfolio experience,
+                    you agree to immersive visuals, dynamic audio,
+                    fullscreen transitions and dramatic storytelling.
+                </p>
+                <p>
+                    This project is created for demonstration and creative
+                    showcase purposes only. All media content belongs to
+                    their respective owners.
+                </p>
+                <p class="warning-text">
+                    Viewer discretion is advised for intense
+                    cinematic sequences and emotional presentation.
+                </p>
+
+                <div class="separator"></div>
+
+                <h4>CREDITS</h4>
+
+                <ul class="credits-list">
+                    <li><a href="https://www.linkedin.com/" target="_blank" class="hover-target">Green Screen Effects — Macan</a></li>
+                    <li><a href="https://stockcake.com/" target="_blank" class="hover-target">Permissions Background Images</a></li>
+                    <li><a href="https://www.freepik.com/" target="_blank" class="hover-target">Terms Background MP4</a></li>
+                </ul>
+            </div>
+
+            <button class="close-btn hover-target" id="closeBtn">
+                <span class="bracket">[</span> CLOSE <span class="bracket">]</span>
+            </button>
+
+            <div class="copyright">
+                © 2026 MACAN / STUDIO. ALL RIGHTS RESERVED. 
+                <span id="easterEggTrigger" class="hover-target">.</span>
+            </div>
+
+            <div id="directorNote" class="hidden-note">
+                <p>"Film is a battleground."<br>— Thanks for checking out my work.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/terms.js' %}"></script>
+
+</body>
+</html>

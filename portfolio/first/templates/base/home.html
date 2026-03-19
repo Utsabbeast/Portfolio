@@ -1,119 +1,110 @@
 {% load static %}
 
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <title>Movie Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/Shuriken icon.ico' %}">
+    <link rel="stylesheet" href="/static/Shuri/Shuri.css">
 </head>
 
 <body>
-  <div class="WinAlignment">
-    <div class="site">
-         <div class="checkbox-stage">
-      <div class="checkbox-column" id="checkboxFlow">
 
-        <!-- Sound Permission -->
-        <label class="notebook-checkbox" data-action="sound">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span class="text">
-            <span class="text-content">Allow Sound</span>
-            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
-              <path d="M0,10 H400"></path>
+    <div class="WinAlignment">
+        <div class="site">
+
+            <svg height="0" width="0" style="position: absolute;">
+                <filter id="handDrawnNoise">
+                    <feTurbulence result="noise" numOctaves="8" baseFrequency="0.1" type="fractalNoise"></feTurbulence>
+                    <feDisplacementMap yChannelSelector="G" xChannelSelector="R" scale="3" in2="noise"
+                        in="SourceGraphic"></feDisplacementMap>
+                </filter>
             </svg>
-          </span>
-        </label>
 
-        <!-- Fullscreen -->
-        <label class="notebook-checkbox" data-action="fullscreen">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span class="text">
-            <span class="text-content">Enable Fullscreen</span>
-            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
-              <path d="M0,10 H400"></path>
-            </svg>
-          </span>
-        </label>
+            <div class="checkbox-stage">
+                <div class="checkbox-column">
 
-        <!-- Terms -->
-        <label class="notebook-checkbox" data-action="terms">
-          <input type="checkbox">
-          <span class="checkmark"></span>
-          <span class="text">
-            <span class="text-content">Accept Terms & Conditions</span>
-            <svg preserveAspectRatio="none" viewBox="0 0 400 20" class="cut-line">
-              <path d="M0,10 H400"></path>
-            </svg>
-          </span>
-        </label>
+                    <label class="notebook-checkbox" data-action="terms">
+                        <div class="bgTerms">
+                            <img src="{% static 'images/TermsBG.jpg' %}" alt="bg" class="terms-bg">
+                        </div>
+                        <input type="checkbox">
+                        <span class="text">
+                            <span class="text-content">
+                                Accept Terms & Conditions
+                                <span class="terms-sub">
+                                    <a href="{% url 'terms' %}" target="_blank" class="inline-terms-link">READ</a>
+                                </span>
+                            </span>
+                        </span>
+                    </label>
 
-      </div>
+                    <label class="notebook-checkbox" data-action="sound">
+                        <div class="bgSOUND">
+                            <img src="{% static 'images/Sound BG.jpg' %}" alt="bg" class="terms-bg">
+                        </div>
+                        <input type="checkbox">
+                        <span class="text"><span class="text-content">Allow Sound</span></span>
+                    </label>
+
+                    <label class="notebook-checkbox" data-action="fullscreen">
+                        <div class="bgFULL">
+                            <img src="{% static 'images/Full BG.jpg' %}" alt="bg" class="terms-bg">
+                        </div>
+                        <input type="checkbox">
+                        <span class="text"><span class="text-content">Enable Fullscreen</span></span>
+                    </label>
+
+                </div>
+            </div>
+
+            <!-- SKIP BUTTON — hidden until permission stage ends, then skips to folio -->
+            <button id="skip-to-folio" onclick="skipToFolio()">
+                &#9654; Skip
+            </button>
+
+            <audio id="bgRain" src="{% static 'images/rain.mp3' %}" loop></audio>
+
+            <div id="cinemaStage" class="cinema-stage hidden">
+                <iframe 
+                    id="shuri-iframe" 
+                    src="static/Shuri/Shuri.html" 
+                    class="cinema-item" 
+                    data-type="iframe"
+                    allow="autoplay; fullscreen" 
+                    style="display:none; background-color: black;">
+                </iframe>
+
+                <video class="cinema-item" data-type="video" preload="auto" playsinline>
+                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
+                </video>
+
+                <video class="cinema-item" data-type="video" preload="auto" playsinline>
+                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
+                </video>
+
+                <video class="cinema-item" data-type="video" preload="auto" playsinline>
+                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
+                </video>
+
+                <iframe
+                    id="folio-iframe"
+                    data-src="/static/folio/folio.html?v={% now "U" %}"
+                    src="about:blank"
+                    class="cinema-item"
+                    data-type="iframe"
+                    allow="autoplay; fullscreen"
+                    style="display:none; background-color: black; border: none; width: 100%; height: 100%;">
+                </iframe>
+            </div>
+
+        </div>
     </div>
 
-    <!-- SVG filter for chalk effect -->
-    <svg width="0" height="0">
-      <filter id="handDrawnNoise">
-        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="8"/>
-        <feDisplacementMap in="SourceGraphic" scale="3"/>
-      </filter>
-    </svg>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <!-- Your entire website goes here -->
-    </div>
-  </div>
+    <script src="{% static 'js/jave.js' %}"></script>
 </body>
 
-
-
-
-
-
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<script src="{% static 'js/jave.js' %}"></script>
-</body>
 </html>
