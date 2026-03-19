@@ -343,8 +343,8 @@ body, html {
     color: #fff;
     text-transform: uppercase;
     text-shadow: 0 0 14px rgba(255,30,30,0.25);
-    margin-bottom: 20px;
-    margin-top: 60px;
+    margin-bottom: 5px;
+    margin-top: 50px;
 }
 .doc-section-title:first-of-type { margin-top: 0; }
 
@@ -824,7 +824,7 @@ img { max-width: 100%; height: auto; }
 
 @keyframes rollCredits {
     0% { transform: translateY(100vh); }
-    100% { transform: translateY(calc(-100% + 55vh)); }
+    100% { transform: translateY(calc(-100% + 72vh)); }
 }
 
 .credits-title-card {
