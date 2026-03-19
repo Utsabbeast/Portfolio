@@ -72,8 +72,11 @@ body, html {
 }
 
 /* Hide Under_DEV video during transitions to show black */
-#site.transitioning #vid-under-dev {
+#site.transitioning #vid-under-dev,
+#site.credits-ending #vid-under-dev,
+#site.credits-ending .vid-layer {
     opacity: 0 !important;
+    display: none !important;
 }
 
 /* Dim BG video in inspect mode */
