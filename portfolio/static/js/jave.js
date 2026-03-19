@@ -43,7 +43,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 bgRain.play().catch(() => { });
             }
             if (action === "fullscreen") {
-                document.documentElement.requestFullscreen?.().catch(() => { });
+                document.documentElement.requestFullscreen?.().then(() => {
+                    // Try to lock orientation on mobile
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(() => { });
+                    }
+                }).catch(() => { });
             }
 
             step.classList.remove("show");
