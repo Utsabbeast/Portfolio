@@ -211,21 +211,24 @@
                 setTimeout(() => {
                     // Show final ratings screen instead of just closing
                     document.body.innerHTML = `
-                        <div style="background:#000; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8b0000; font-family:'Courier Prime', monospace; text-align:center; animation: fadeIn 2s forwards;">
-                            <div style="font-size:11px; letter-spacing:4px; margin-bottom:20px; color:#1a1a1a;">SESSION TERMINATED</div>
-                            <div style="font-size:18px; letter-spacing:2px; margin-bottom:30px; color:#c0c0c0;">THANK YOU FOR VISITING</div>
+                        <div style="background:#000; height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#8b0000; font-family:'Courier Prime', monospace; text-align:center; animation: fadeIn 2.2s forwards; position: relative; overflow: hidden;">
+                            <video autoplay muted loop playsinline style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.35; filter: grayscale(1) contrast(1.2);">
+                                <source src="/static/images/Under_DEV.mp4" type="video/mp4">
+                            </video>
+                            <div style="font-size:11px; letter-spacing:6px; margin-bottom:24px; color:rgba(255,255,255,0.15); font-weight: bold;">SESSION TERMINATED</div>
+                            <div style="font-family: 'Anton', sans-serif; font-size:42px; letter-spacing:4px; margin-bottom:40px; color:#fff; text-shadow: 0 0 20px rgba(255,0,0,0.4);">THANK YOU FOR VISITING</div>
                             <a href="https://forms.gle/SYom1ioTanGXSddz9" target="_blank" 
-                               style="color:#fff; text-decoration:none; border:1px solid #8b0000; padding:12px 24px; font-size:13px; letter-spacing:3px; transition:all 0.3s; background:rgba(139,0,0,0.1); display:inline-block;" 
-                               onmouseover="this.style.background='rgba(139,0,0,0.4)';this.style.boxShadow='0 0 15px rgba(139,0,0,0.5)';" 
-                               onmouseout="this.style.background='rgba(139,0,0,0.1)';this.style.boxShadow='none';">
+                               style="font-family: 'Anton', sans-serif; color:#fff; text-decoration:none; border: 1px solid rgba(204, 0, 0, 0.6); padding: 14px 45px; font-size:16px; letter-spacing:5px; transition:all 0.4s ease; background:rgba(180, 0, 0, 0.15); display:inline-block; box-shadow: 0 0 25px rgba(139,0,0,0.2); border-radius: 4px;" 
+                               onmouseover="this.style.background='rgba(204, 0, 0, 0.35)';this.style.boxShadow='0 0 40px rgba(204, 0, 0, 0.5)';this.style.letterSpacing='6px';this.style.borderColor='#ff0000';" 
+                               onmouseout="this.style.background='rgba(139, 0, 0, 0.15)';this.style.boxShadow='0 0 25px rgba(139,0,0,0.2)';this.style.letterSpacing='5px';this.style.borderColor='rgba(204, 0, 0, 0.6)';">
                                RATE MY PORTFOLIO
                             </a>
                             <style>
-                                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                                @keyframes fadeIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
                             </style>
                         </div>
                     `;
-                }, 3000);
+                }, 2000);
             };
         }
     }
@@ -239,7 +242,8 @@
 
     /* ─────────── CV POPUP ─────────── */
     window.openCV = function() {
-        if (!cvOverlay) return;
+        playSelect();
+        popup.style.display = 'flex';
         cvOverlay.style.display = 'flex';
         // Always ensure the PDF is loaded when opening
         if (cvFrame) {
