@@ -4,7 +4,7 @@ services:
     runtime: python
     plan: free
     buildCommand: "./build.sh"
-    startCommand: "gunicorn portfolio.wsgi:application"
+    startCommand: "gunicorn --chdir portfolio portfolio.wsgi:application"
     envVars:
       - key: SECRET_KEY
         generateValue: true
