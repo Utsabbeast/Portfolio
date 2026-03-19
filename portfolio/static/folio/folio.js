@@ -215,7 +215,7 @@
                             <div style="font-family:'Courier New', monospace; font-size:10px; letter-spacing:5px; margin-bottom:24px; color:rgba(255,255,255,0.2); font-weight: bold; text-transform: uppercase;">SESSION TERMINATED</div>
                             <div style="font-family:'Courier New', monospace; font-size:18px; letter-spacing:4px; margin-bottom:40px; color:#fff; text-transform: uppercase;">THANK YOU FOR VISITING</div>
                             <a href="https://forms.gle/SYom1ioTanGXSddz9" target="_blank" 
-                               style="font-family:'Courier New', monospace; color:rgba(255, 255, 255, 0.45); text-decoration:none; border: 1px solid rgba(180, 0, 0, 0.4); padding: 7px 30px; font-size:10px; letter-spacing:3px; transition:all 0.3s ease; background:rgba(0,0,0,0.5); display:inline-block; border-radius: 3px; backdrop-filter: blur(8px); text-transform: uppercase;" 
+                               style="font-family:'Courier New', monospace; color:rgba(255, 255, 255, 0.45); text-decoration:none; border: 1px solid rgba(180, 0, 0, 0.4); padding: 7px 30px; font-size:10px; letter-spacing:3px; transition:all 0.3s ease; background:rgba(0,0,0,0.5); display:inline-block; border-radius: 3px; backdrop-filter: blur(8px); text-transform: uppercase; filter: url(#handDrawnNoise);" 
                                onmouseover="this.style.color='#ffffff';this.style.borderColor='#ff3e3e';this.style.background='rgba(180, 0, 0, 0.3)';" 
                                onmouseout="this.style.color='rgba(255, 255, 255, 0.45)';this.style.borderColor='rgba(180, 0, 0, 0.4)';this.style.background='rgba(0,0,0,0.5)';"
                                onclick="playSelect()">
