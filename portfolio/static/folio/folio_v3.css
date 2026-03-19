@@ -74,6 +74,7 @@ body, html {
 /* Hide Under_DEV video during transitions to show black */
 #site.transitioning #vid-under-dev,
 #site.credits-ending #vid-under-dev,
+#site.credits-finished #vid-under-dev,
 #site.credits-ending .vid-layer {
     opacity: 0 !important;
     display: none !important;
@@ -337,13 +338,13 @@ body, html {
 
 .doc-section-title {
     font-family: 'Anton', sans-serif;
-    font-size: 1.1rem;
+    font-size: 3rem;
     letter-spacing: 2px;
     color: #fff;
     text-transform: uppercase;
     text-shadow: 0 0 14px rgba(255,30,30,0.25);
-    margin-bottom: 12px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 60px;
 }
 .doc-section-title:first-of-type { margin-top: 0; }
 
@@ -806,7 +807,8 @@ img { max-width: 100%; height: auto; }
     width: 100%;
     text-align: center;
     position: absolute;
-    top: 100%;
+    top: 0;
+    transform: translateY(100vh);
     animation: rollCredits 50s linear forwards;
     animation-play-state: paused;
     padding: 0 40px;
@@ -821,8 +823,8 @@ img { max-width: 100%; height: auto; }
 }
 
 @keyframes rollCredits {
-    0% { top: 100%; }
-    100% { top: -220%; }
+    0% { transform: translateY(100vh); }
+    100% { transform: translateY(calc(-100% + 55vh)); }
 }
 
 .credits-title-card {
