@@ -71,6 +71,11 @@ body, html {
     opacity: 1;
 }
 
+/* Hide Under_DEV video during transitions to show black */
+#site.transitioning #vid-under-dev {
+    opacity: 0 !important;
+}
+
 /* Dim BG video in inspect mode */
 #site.inspect-active .vid-layer.page-bg.visible {
     filter: brightness(0.08) blur(16px);
@@ -196,24 +201,24 @@ body, html {
 }
 
 #end-normal-btn {
-    background: rgba(139, 0, 0, 0.12);
-    border: 1px solid rgba(204, 0, 0, 0.5);
-    color: rgba(255, 255, 255, 0.7);
-    padding: 10px 40px;
-    font-family: 'Anton', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(180, 0, 0, 0.4);
+    color: rgba(255, 255, 255, 0.45);
+    padding: 7px 30px;
+    font-family: "Courier New", monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     cursor: pointer;
     border-radius: 3px;
     transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(139,0,0,0.15);
+    backdrop-filter: blur(8px);
 }
 #end-normal-btn:hover {
-    background: rgba(204, 0, 0, 0.22);
-    border-color: var(--neon-red);
-    color: #fff;
-    box-shadow: 0 0 30px rgba(204,0,0,0.3);
-    letter-spacing: 6px;
+    color: #ffffff;
+    border-color: #ff3e3e;
+    background: rgba(180, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(255, 62, 62, 0.2);
 }
 
 .end-hint-sub {
