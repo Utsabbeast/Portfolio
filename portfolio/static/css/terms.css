@@ -232,7 +232,9 @@ position: absolute;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; /* Start from top to handle overflow */
+    padding: 2rem 0; /* Vertical space for scrolling comfort */
+    gap: 0.5rem; /* Space between content blocks */
     overflow-y: auto; 
     scrollbar-width: none; /* Firefox */
 }
@@ -319,6 +321,8 @@ position: absolute;
     cursor: crosshair;
     transition: all 0.3s ease;
     text-transform: uppercase;
+    flex-shrink: 0; /* Don't squash the button */
+    margin-top: 1rem;
 }
 
 .close-btn .bracket { color: #555555; transition: color 0.3s ease; }
