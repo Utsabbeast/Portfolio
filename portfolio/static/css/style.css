@@ -4,6 +4,12 @@ html, body {
     height: 100%;
     background: black;
     overflow: hidden;
+    outline: none;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    outline: none;
 }
 
 .WinAlignment {

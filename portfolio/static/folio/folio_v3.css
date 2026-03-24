@@ -7,7 +7,7 @@
     --border-glow: rgba(180, 0, 0, 0.28);
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
 
 body, html {
     width: 100%; height: 100%;
@@ -72,11 +72,11 @@ body, html {
     opacity: 1;
 }
 
-/* Hide Under_DEV video during transitions to show black */
+/* Hide videos during entire credits sequence to show pure black */
 #site.transitioning #vid-under-dev,
-#site.credits-ending #vid-under-dev,
-#site.credits-finished #vid-under-dev,
-#site.credits-ending .vid-layer {
+#site.credits-active .vid-layer,
+#site.credits-ending .vid-layer,
+#site.credits-finished .vid-layer {
     opacity: 0 !important;
     display: none !important;
 }
