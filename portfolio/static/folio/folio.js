@@ -4,11 +4,11 @@
         const site = document.getElementById('site');
         if (!site) return;
         
-        // If rendered inside a resized iframe, innerWidth will already be 1920
+        // If rendered inside a resized iframe, innerWidth will already be 1440
         // and scale evaluates to 1. If rendered standalone, it correctly scales.
         const winW = window.innerWidth;
         const winH = window.innerHeight;
-        let scale = Math.min(winW / 1920, winH / 1080);
+        let scale = Math.min(winW / 1440, winH / 810);
         site.style.transform = `scale(${scale})`;
     }
     window.addEventListener('resize', applyFolioScaler);

@@ -11,7 +11,7 @@ function applyScaler() {
     let availW = isForced ? winH : winW;
     let availH = isForced ? winW : winH;
     
-    let scale = Math.min(availW / 1920, availH / 1080);
+    let scale = Math.min(availW / 1440, availH / 810);
     
     site.style.transform = isForced 
         ? `rotate(90deg) scale(${scale})` 
@@ -71,13 +71,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Try to lock orientation on mobile
                     if (screen.orientation && screen.orientation.lock) {
                         screen.orientation.lock('landscape').catch(() => {
-                            document.body.classList.add('force-landscape');
+                            if (window.innerHeight > window.innerWidth) {
+                                document.body.classList.add('force-landscape');
+                            }
                         });
                     } else {
-                        document.body.classList.add('force-landscape');
+                        if (window.innerHeight > window.innerWidth) {
+                            document.body.classList.add('force-landscape');
+                        }
                     }
                 }).catch(() => {
-                    document.body.classList.add('force-landscape');
+                    if (window.innerHeight > window.innerWidth) {
+                        document.body.classList.add('force-landscape');
+                    }
                 });
             }
 
