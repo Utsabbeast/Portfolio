@@ -282,7 +282,6 @@ body, html {
     scale: 1.01;
     background: rgba(0, 0, 0, 0.85);
     box-shadow: 0 0 80px rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #site.inspect-active .doc-title {
