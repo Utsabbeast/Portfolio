@@ -296,7 +296,7 @@ body, html {
 }
 
 #page-doc {
-    position: relative;
+    position: relative !important;
     padding: 70px 100px;
     height: 100%;
     box-sizing: border-box;
@@ -306,6 +306,134 @@ body, html {
     scrollbar-width: none;
     transition: all 0.8s ease;
 }
+
+/* ===================================================
+   TWO-COLUMN LAYOUT & IMAGE PLACEHOLDERS
+   =================================================== */
+#page-doc.two-col {
+    /* Side-by-side using absolute positioning for the image */
+    display: block; 
+}
+
+.doc-content-left {
+    margin-right: 380px; /* Space for the absolute image */
+    min-width: 0;
+}
+
+#page-doc .doc-image-right {
+    position: absolute;
+    top: 70px;
+    right: 100px;
+    width: 320px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease;
+}
+
+/* POLAROID PHOTO EFFECT */
+#page-doc .doc-image-right.polaroid {
+    background: #f8f8f8;
+    padding: 16px 16px 64px 16px;
+    box-shadow: 10px 10px 40px rgba(0,0,0,0.45);
+    transform: rotate(-3deg);
+    border: 1px solid rgba(0,0,0,0.05);
+    height: auto;
+    transition: background 0.5s ease, box-shadow 0.5s ease, transform 0.4s ease;
+    background-size: 200% 200%;
+}
+
+#page-doc .doc-image-right.polaroid:hover {
+    background: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff);
+    background-size: 400% 400%;
+    animation: rainbowMove 3s linear infinite;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.3), 0 0 60px rgba(0, 255, 0, 0.2), 0 0 90px rgba(0, 0, 255, 0.1);
+    transform: rotate(-1deg) scale(1.02);
+}
+
+@keyframes rainbowMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#page-doc .doc-image-right.polaroid .doc-image-placeholder {
+    border: none;
+    background: #000;
+    height: 320px; /* Square proportions for polaroid */
+}
+
+#page-doc .doc-image-right.polaroid .doc-image {
+    filter: sepia(0.1) brightness(0.9) contrast(1.1);
+}
+
+.doc-image-placeholder {
+    width: 100%;
+    height: 440px;
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    background: rgba(180, 0, 0, 0.02);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    filter: url(#handDrawnNoise);
+}
+
+.doc-image-placeholder:hover {
+    border-color: var(--neon-red);
+    background: rgba(204, 0, 0, 0.06);
+    box-shadow: 0 0 30px rgba(255, 34, 68, 0.08);
+}
+
+.placeholder-lines {
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(45deg, transparent 49.5%, rgba(255,255,255,0.1) 50%, transparent 50.5%),
+        linear-gradient(-45deg, transparent 49.5%, rgba(255,255,255,0.1) 50%, transparent 50.5%);
+    background-size: 100% 100%;
+    opacity: 0.3;
+}
+
+.placeholder-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: rgba(255, 255, 255, 0.2);
+    text-transform: uppercase;
+    z-index: 1;
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.3);
+}
+
+.doc-image-placeholder::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(180, 0, 0, 0.05));
+    pointer-events: none;
+}
+
+.doc-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.credits-logo {
+    height: 14px;
+    width: auto;
+    vertical-align: middle;
+    margin-right: 8px;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.15));
+}
+
 #page-doc::-webkit-scrollbar { display: none; }
 
 .doc-chapter {
@@ -878,6 +1006,35 @@ img { max-width: 100%; height: auto; }
 .credits-name a:hover {
     color: #fff;
     text-shadow: 0 0 20px rgba(255,34,68,0.6);
+}
+
+/* BRANDED HOVER COLORS */
+.credits-name a[href*="discord"]:hover {
+    color: #5865F2;
+    text-shadow: 0 0 15px rgba(88, 101, 242, 0.6);
+}
+
+.credits-name a[href*="instagram"]:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
+}
+
+.credits-name a[href*="youtube"]:hover {
+    color: #8b0000;
+    text-shadow: 0 0 15px rgba(139, 0, 0, 0.6);
+}
+
+.credits-name a[href*="linkedin"]:hover {
+    color: #0077b5;
+    text-shadow: 0 0 15px rgba(0, 119, 181, 0.6);
+}
+
+.credits-name a[href*="github"]:hover {
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .credits-footer {

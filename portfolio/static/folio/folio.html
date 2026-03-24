@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folio | Inspect Archive</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Anton&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="folio_v3.css?v=3">
+    <link rel="stylesheet" href="folio_v3.css?v=6">
 </head>
 <body>
 
@@ -94,7 +94,7 @@
 
             <!-- OWN CHANNELS -->
             <div class="credits-block">
-            <span class="credits-role">SHURIKEN PRODUCTION</span>
+            <span class="credits-role"><img src="/static/images/Shuriken_logo.png" class="credits-logo">SHURIKEN PRODUCTION</span>
                 <span class="credits-name">
                     <a href="https://discord.gg/wgQ2tvzMjR" target="_blank">DISCORD</a>
                     &nbsp;·&nbsp;
@@ -167,171 +167,178 @@
 
 <!-- ==================== PAGE 1: About Me + Skills + Work Experience ==================== -->
 <template id="tpl-p1">
-    <div id="page-doc">
-        <span class="doc-chapter">01 &mdash; Profile</span>
-        <h1 class="doc-title">About Me</h1>
-        <div class="doc-rule"></div>
+    <div id="page-doc" class="two-col">
+        <div class="doc-content-left">
+            <span class="doc-chapter">01 &mdash; Profile</span>
+            <h1 class="doc-title">About Me</h1>
+            <div class="doc-rule"></div>
 
-        <!-- ABOUT ME PLACEHOLDER -->
-        <div class="about-me-block">
-            <p class="doc-text about-placeholder">
-                <em>[ Bio coming soon &mdash; check back! ]</em>
-            </p>
+            <!-- ABOUT ME PLACEHOLDER -->
+            <div class="about-me-block">
+                <p class="doc-text about-placeholder">
+                    <em>[ Bio coming soon &mdash; check back! ]</em>
+                </p>
 
-            <!-- CV BUTTON -->
-            <div class="cv-wrapper">
-                <button class="cv-btn" id="cv-open-btn" onclick="openCV()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    VIEW CV / RÉSUMÉ
-                </button>
-                </button>
-            </div>
-        </div>
-
-        <div class="doc-sub-rule"></div>
-
-        <!-- SKILLS -->
-        <h2 class="doc-section-title">Skills &amp; Arsenal</h2>
-        <div class="doc-rule"></div>
-
-        <!-- SOCIAL LINKS -->
-        <div class="skill-category">
-            <div class="skill-cat-label">SOCIAL</div>
-            <div class="social-links-row">
-                <a href="https://www.linkedin.com/in/utsab-das/" target="_blank" class="social-link">
-                    <svg class="social-icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="#8b0000"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://github.com/Utsabbeast" target="_blank" class="social-link">
-                    <img src="https://cdn.simpleicons.org/github/8b0000" alt="GitHub" class="social-icon" style="width: 16px; height: 16px;">
-                    <span>GitHub</span>
-                </a>
-                <a href="https://www.freecodecamp.org/utsabbeast" target="_blank" class="social-link">
-                    <img src="https://cdn.simpleicons.org/freecodecamp/8b0000" alt="FreeCodeCamp" class="social-icon" style="width: 16px; height: 16px;">
-                    <span>FreeCodeCamp</span>
-                </a>
-                <a href="https://leetcode.com/u/54bkdHkRkJ/" target="_blank" class="social-link">
-                    <img src="https://cdn.simpleicons.org/leetcode/8b0000" alt="LeetCode" class="social-icon" style="width: 16px; height: 16px;">
-                    <span>LeetCode</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- PROGRAMMING -->
-        <div class="skill-category">
-            <div class="skill-cat-label">PROGRAMMING</div>
-            <div class="tag-row">
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/c/8b0000" alt="C" class="tag-icon" style="width: 14px; height: 14px;">C
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/cplusplus/8b0000" alt="C++" class="tag-icon" style="width: 14px; height: 14px;">C++
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/python/8b0000" alt="Python" class="tag-icon" style="width: 14px; height: 14px;">Python
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M6.16 18.23c-.7.14-1.2.28-1.5.42-.4.18-.5.35-.5.5 0 .26.36.56 1.09.89 1.04.47 2.64.84 4.54 1.05-1.93.3-3.7.45-5.32.45-1.12 0-1.92-.07-2.4-.21-.49-.15-.81-.37-.96-.68-.15-.3-.08-.63.22-.97.29-.33.79-.66 1.5-.98 1.15-.52 2.22-.92 3.23-1.21.03.24.06.49.1.74zm11.77-1.84c.48.11.83.22 1.04.32.22.1.33.2.33.3 0 .15-.22.31-.66.49-1.39.56-3.83.95-7.31 1.16-1.07.06-2.07.1-3 .1.22-.5.44-1 .66-1.5 2.5-.07 4.97-.24 7.42-.51.52-.06 1.02-.12 1.52-.2zm-1.13-4.14c.26.11.41.22.46.33.04.11.02.21-.06.31-.19.22-.67.43-1.45.62-1.21.31-2.92.54-5.11.69-.17-.5-.35-.9-.55-1.2s-.42-.57-.66-.82c1.94-.03 3.84-.09 5.68-.19.57-.03 1.14-.07 1.69-.1zm-1.53-3.92c.16.1.25.19.27.28.01.09-.04.17-.16.24-.12.07-.36.14-.72.21-.79.15-2 .27-3.64.35-.09-.43-.19-.77-.28-1.03-.44-1.23-2.12-2.19-2.22-3.12 0-.05.01-.09.02-.14.28.16.53.33.75.52.22.18.42.36.6.54.18.18.34.36.47.53.14.17.26.34.37.52.38.64 1.3 1.59 2.14 2.1z"/></svg>Java
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/javascript/8b0000" alt="JavaScript" class="tag-icon" style="width: 14px; height: 14px;">JavaScript
-                </span>
-            </div>
-        </div>
-
-        <!-- WEB DEV -->
-        <div class="skill-category">
-            <div class="skill-cat-label">WEB DEVELOPMENT</div>
-            <div class="tag-row">
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/html5/8b0000" alt="HTML" class="tag-icon" style="width: 14px; height: 14px;">HTML
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>CSS
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/django/8b0000" alt="Django" class="tag-icon" style="width: 14px; height: 14px;">Django
-                </span>
-            </div>
-        </div>
-
-        <!-- DIGITAL FORENSICS -->
-        <div class="skill-category">
-            <div class="skill-cat-label">DIGITAL FORENSICS</div>
-            <div class="tag-row">
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                    Autopsy
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h12M6 12h8"/></svg>
-                    Volatility
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-                    FTK Imager
-                </span>
-            </div>
-        </div>
-
-        <!-- CREATIVE TOOLS -->
-        <div class="skill-category">
-            <div class="skill-cat-label">CREATIVE TOOLS</div>
-            <div class="tag-row">
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="#8b0000"><path d="M24 24H0V0h24v24zM6.61 6.324H3.454v11.352H6.61s1.395.034 2.155-.4c.73-.423 1.055-1.127 1.055-2.228 0-1.13-.342-1.93-1.077-2.316-.628-.316-1.503-.316-1.503-.316H6.61V6.324zm0 4.394v-3.03h.35s.895-.015 1.25.176c.324.16.495.533.495 1.34s-.17.1.18.495s-.508.834-.845 1.018c-.375.205-1.28.205-1.28.205H6.61zm11.2 5.06s.015.7-.3.978c-.324.264-.72.264-.72.264h-.233l-.015-1.74h.346s.465.015.698-.105a.47.47 0 0 0 .225-.397v-1.103c0-.495-.233-.705-.623-.742l-.248-.008h-.412v3.083h-1.38V9.89h1.763s1.462.067 2.062.615c.615.548.87 1.35.87 2.393v1.65c0 .72-.015 1.23.015 1.508s.165.41.345.548v.63h-1.395s-.285-.015-.412-.39s-.015-.66-.015-.66z"/></svg>
-                    Premiere Pro
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.9L15 14M3 8.5h12v7H3z"/></svg>
-                    Shotcut
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M2.25 0h19.5c1.243 0 2.25 1.007 2.25 2.25v19.5c0 1.243-1.007 2.25-2.25 2.25h-19.5c-1.243 0-2.25-1.007-2.25-2.25v-19.5c0-1.243 1.007-2.25 2.25-2.25zm11.332 17h1.613l-4.148-10.02h-2.181l-4.116 10.02h1.636l.944-2.431h4.257l.995 2.431zm-1.896-3.791h-3.178l1.583-4.041 1.595 4.041zm8.314 3.791v-6.93h-1.442v6.93h1.442zm-1.442-7.859c0 .445.362.806.807.806.444 0 .807-.361.807-.806 0-.447-.363-.809-.807-.809-.445 0-.807.362-.807.809z"/></svg>Adobe Animate
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/krita/8b0000" alt="Krita" class="tag-icon" style="width: 14px; height: 14px;">Krita
-                </span>
-                <span class="tag tag-logo">
-                    <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-                    Sketchbook
-                </span>
-                <span class="tag tag-logo">
-                    <img src="https://cdn.simpleicons.org/blender/8b0000" alt="Blender" class="tag-icon" style="width: 14px; height: 14px;">Blender
-                </span>
-            </div>
-        </div>
-
-        <!-- SOFT SKILLS (no logos) -->
-        <div class="skill-category">
-            <div class="skill-cat-label">SOFT SKILLS</div>
-            <div class="tag-row">
-                <span class="tag">Creative Thinking</span>
-                <span class="tag">Leadership</span>
-                <span class="tag">Time Management</span>
-                <span class="tag">Adaptability</span>
-                <span class="tag">Effective Communication</span>
-            </div>
-        </div>
-
-        <div class="doc-sub-rule"></div>
-
-        <!-- WORK EXPERIENCE -->
-        <h2 class="doc-section-title">Work Experience</h2>
-        <div class="doc-rule"></div>
-
-        <div class="entry work-entry">
-            <div class="entry-header">
-                <div class="yt-logo-wrap">
-                    <img src="https://cdn.simpleicons.org/youtube/8b0000" alt="YouTube" class="entry-platform-logo">
+                <!-- CV BUTTON -->
+                <div class="cv-wrapper">
+                    <button class="cv-btn" id="cv-open-btn" onclick="openCV()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        VIEW CV / RÉSUMÉ
+                    </button>
                 </div>
-                <div class="entry-title">YouTube Channel</div>
             </div>
-            <div class="entry-sub">
-                <a href="https://www.youtube.com/@ShurikenProduction" target="_blank" class="entry-link">Shuriken Production</a><br>
-                Content creator &mdash; <em>Creative Anime Video and Shorts.</em> Animation Channel.
+
+            <div class="doc-sub-rule"></div>
+
+            <!-- SKILLS -->
+            <h2 class="doc-section-title">Skills &amp; Arsenal</h2>
+            <div class="doc-rule"></div>
+
+            <!-- SOCIAL LINKS -->
+            <div class="skill-category">
+                <div class="skill-cat-label">SOCIAL</div>
+                <div class="social-links-row">
+                    <a href="https://www.linkedin.com/in/utsab-das/" target="_blank" class="social-link">
+                        <svg class="social-icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="#8b0000"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://github.com/Utsabbeast" target="_blank" class="social-link">
+                        <img src="https://cdn.simpleicons.org/github/8b0000" alt="GitHub" class="social-icon" style="width: 16px; height: 16px;">
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://www.freecodecamp.org/utsabbeast" target="_blank" class="social-link">
+                        <img src="https://cdn.simpleicons.org/freecodecamp/8b0000" alt="FreeCodeCamp" class="social-icon" style="width: 16px; height: 16px;">
+                        <span>FreeCodeCamp</span>
+                    </a>
+                    <a href="https://leetcode.com/u/54bkdHkRkJ/" target="_blank" class="social-link">
+                        <img src="https://cdn.simpleicons.org/leetcode/8b0000" alt="LeetCode" class="social-icon" style="width: 16px; height: 16px;">
+                        <span>LeetCode</span>
+                    </a>
+                </div>
             </div>
-            <span class="entry-badge">&#9632; Active</span>
+
+            <!-- PROGRAMMING -->
+            <div class="skill-category">
+                <div class="skill-cat-label">PROGRAMMING</div>
+                <div class="tag-row">
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/c/8b0000" alt="C" class="tag-icon" style="width: 14px; height: 14px;">C
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/cplusplus/8b0000" alt="C++" class="tag-icon" style="width: 14px; height: 14px;">C++
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/python/8b0000" alt="Python" class="tag-icon" style="width: 14px; height: 14px;">Python
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M6.16 18.23c-.7.14-1.2.28-1.5.42-.4.18-.5.35-.5.5 0 .26.36.56 1.09.89 1.04.47 2.64.84 4.54 1.05-1.93.3-3.7.45-5.32.45-1.12 0-1.92-.07-2.4-.21-.49-.15-.81-.37-.96-.68-.15-.3-.08-.63.22-.97.29-.33.79-.66 1.5-.98 1.15-.52 2.22-.92 3.23-1.21.03.24.06.49.1.74zm11.77-1.84c.48.11.83.22 1.04.32.22.1.33.2.33.3 0 .15-.22.31-.66.49-1.39.56-3.83.95-7.31 1.16-1.07.06-2.07.1-3 .1.22-.5.44-1 .66-1.5 2.5-.07 4.97-.24 7.42-.51.52-.06 1.02-.12 1.52-.2zm-1.13-4.14c.26.11.41.22.46.33.04.11.02.21-.06.31-.19.22-.67.43-1.45.62-1.21.31-2.92.54-5.11.69-.17-.5-.35-.9-.55-1.2s-.42-.57-.66-.82c1.94-.03 3.84-.09 5.68-.19.57-.03 1.14-.07 1.69-.1zm-1.53-3.92c.16.1.25.19.27.28.01.09-.04.17-.16.24-.12.07-.36.14-.72.21-.79.15-2 .27-3.64.35-.09-.43-.19-.77-.28-1.03-.44-1.23-2.12-2.19-2.22-3.12 0-.05.01-.09.02-.14.28.16.53.33.75.52.22.18.42.36.6.54.18.18.34.36.47.53.14.17.26.34.37.52.38.64 1.3 1.59 2.14 2.1z"/></svg>Java
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/javascript/8b0000" alt="JavaScript" class="tag-icon" style="width: 14px; height: 14px;">JavaScript
+                    </span>
+                </div>
+            </div>
+
+            <!-- WEB DEV -->
+            <div class="skill-category">
+                <div class="skill-cat-label">WEB DEVELOPMENT</div>
+                <div class="tag-row">
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/html5/8b0000" alt="HTML" class="tag-icon" style="width: 14px; height: 14px;">HTML
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>CSS
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/django/8b0000" alt="Django" class="tag-icon" style="width: 14px; height: 14px;">Django
+                    </span>
+                </div>
+            </div>
+
+            <!-- DIGITAL FORENSICS -->
+            <div class="skill-category">
+                <div class="skill-cat-label">DIGITAL FORENSICS</div>
+                <div class="tag-row">
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                        Autopsy
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 8h12M6 12h8"/></svg>
+                        Volatility
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                        FTK Imager
+                    </span>
+                </div>
+            </div>
+
+            <!-- CREATIVE TOOLS -->
+            <div class="skill-category">
+                <div class="skill-cat-label">CREATIVE TOOLS</div>
+                <div class="tag-row">
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="#8b0000"><path d="M24 24H0V0h24v24zM6.61 6.324H3.454v11.352H6.61s1.395.034 2.155-.4c.73-.423 1.055-1.127 1.055-2.228 0-1.13-.342-1.93-1.077-2.316-.628-.316-1.503-.316-1.503-.316H6.61V6.324zm0 4.394v-3.03h.35s.895-.015 1.25.176c.324.16.495.533.495 1.34s-.17.1.18.495s-.508.834-.845 1.018c-.375.205-1.28.205-1.28.205H6.61zm11.2 5.06s.015.7-.3.978c-.324.264-.72.264-.72.264h-.233l-.015-1.74h.346s.465.015.698-.105a.47.47 0 0 0 .225-.397v-1.103c0-.495-.233-.705-.623-.742l-.248-.008h-.412v3.083h-1.38V9.89h1.763s1.462.067 2.062.615c.615.548.87 1.35.87 2.393v1.65c0 .72-.015 1.23.015 1.508s.165.41.345.548v.63h-1.395s-.285-.015-.412-.39s-.015-.66-.015-.66z"/></svg>
+                        Premiere Pro
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.87v6.26a1 1 0 0 1-1.447.9L15 14M3 8.5h12v7H3z"/></svg>
+                        Shotcut
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" viewBox="0 0 24 24" fill="#8b0000" style="width: 14px; height: 14px;"><path d="M2.25 0h19.5c1.243 0 2.25 1.007 2.25 2.25v19.5c0 1.243-1.007 2.25-2.25 2.25h-19.5c-1.243 0-2.25-1.007-2.25-2.25v-19.5c0-1.243 1.007-2.25 2.25-2.25zm11.332 17h1.613l-4.148-10.02h-2.181l-4.116 10.02h1.636l.944-2.431h4.257l.995 2.431zm-1.896-3.791h-3.178l1.583-4.041 1.595 4.041zm8.314 3.791v-6.93h-1.442v6.93h1.442zm-1.442-7.859c0 .445.362.806.807.806.444 0 .807-.361.807-.806 0-.447-.363-.809-.807-.809-.445 0-.807.362-.807.809z"/></svg>Adobe Animate
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/krita/8b0000" alt="Krita" class="tag-icon" style="width: 14px; height: 14px;">Krita
+                    </span>
+                    <span class="tag tag-logo">
+                        <svg class="tag-icon" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none" stroke="#8b0000" stroke-width="1.5"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                        Sketchbook
+                    </span>
+                    <span class="tag tag-logo">
+                        <img src="https://cdn.simpleicons.org/blender/8b0000" alt="Blender" class="tag-icon" style="width: 14px; height: 14px;">Blender
+                    </span>
+                </div>
+            </div>
+
+            <!-- SOFT SKILLS (no logos) -->
+            <div class="skill-category">
+                <div class="skill-cat-label">SOFT SKILLS</div>
+                <div class="tag-row">
+                    <span class="tag">Creative Thinking</span>
+                    <span class="tag">Leadership</span>
+                    <span class="tag">Time Management</span>
+                    <span class="tag">Adaptability</span>
+                    <span class="tag">Effective Communication</span>
+                </div>
+            </div>
+
+            <div class="doc-sub-rule"></div>
+
+            <!-- WORK EXPERIENCE -->
+            <h2 class="doc-section-title">Work Experience</h2>
+            <div class="doc-rule"></div>
+
+            <div class="entry work-entry">
+                <div class="entry-header">
+                    <div class="yt-logo-wrap">
+                        <img src="https://cdn.simpleicons.org/youtube/8b0000" alt="YouTube" class="entry-platform-logo">
+                    </div>
+                    <div class="entry-title">YouTube Channel</div>
+                </div>
+                <div class="entry-sub">
+                    <a href="https://www.youtube.com/@ShurikenProduction" target="_blank" class="entry-link">Shuriken Production</a><br>
+                    Content creator &mdash; <em>Creative Anime Video and Shorts.</em> Animation Channel.
+                </div>
+                <span class="entry-badge">&#9632; Active</span>
+            </div>
+        </div>
+
+        <div class="doc-image-right">
+            <div class="doc-image-placeholder">
+                <img src="/static/images/portfolio_example_profile.png" class="doc-image">
+            </div>
         </div>
 
     </div>
@@ -423,99 +430,107 @@
 
 <!-- ==================== PAGE 3: Achievements + Extra-Curricular + Education ==================== -->
 <template id="tpl-p3">
-    <div id="page-doc">
-        <span class="doc-chapter">03 &mdash; Credentials</span>
-        <h1 class="doc-title">Achievements</h1>
-        <div class="doc-rule"></div>
+    <div id="page-doc" class="two-col">
+        <div class="doc-content-left">
+            <span class="doc-chapter">03 &mdash; Credentials</span>
+            <h1 class="doc-title">Achievements</h1>
+            <div class="doc-rule"></div>
 
-        <!-- ACHIEVEMENTS -->
-        <div class="entry">
-            <div class="entry-header-simple">
-                <div class="cert-badge-logo ncc-badge">NCC</div>
-                <div class="entry-title">NCC 'B' Certificate Holder</div>
+            <!-- ACHIEVEMENTS -->
+            <div class="entry">
+                <div class="entry-header-simple">
+                    <div class="cert-badge-logo ncc-badge">NCC</div>
+                    <div class="entry-title">NCC 'B' Certificate Holder</div>
+                </div>
+                <div class="entry-sub">
+                    National Cadet Corps &mdash; 'B' Certificate examination cleared with distinction. Demonstrated discipline, leadership, and commitment to national service.
+                </div>
+                <span class="entry-badge">&#9733; Achieved</span>
             </div>
-            <div class="entry-sub">
-                National Cadet Corps &mdash; 'B' Certificate examination cleared with distinction. Demonstrated discipline, leadership, and commitment to national service.
+
+            <div class="doc-sub-rule"></div>
+
+            <!-- EXTRA-CURRICULAR -->
+            <h2 class="doc-section-title">Extra-Curricular Activities</h2>
+            <div class="doc-rule"></div>
+
+            <div class="entry work-entry">
+                <div class="entry-header">
+                    <div class="ncc-logo-wrap">
+                        <!-- NCC Emblem SVG placeholder -->
+                        <svg class="entry-platform-logo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="30" cy="30" r="28" stroke="#8b0000" stroke-width="2"/>
+                            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#8b0000" font-size="14" font-family="Anton, sans-serif" letter-spacing="2">NCC</text>
+                            <path d="M15 42 Q30 50 45 42" stroke="#8b0000" stroke-width="1.5" fill="none"/>
+                            <path d="M18 20 L30 12 L42 20" stroke="#8b0000" stroke-width="1.5" fill="none"/>
+                        </svg>
+                    </div>
+                    <div class="entry-title">National Cadet Corps (NCC)</div>
+                </div>
+                <div class="entry-sub">
+                    Active NCC cadet. Participated in drills, camps, and community service programs under the NCC banner. Developed leadership, teamwork, and discipline through structured military-style training.
+                </div>
+                <span class="entry-badge">&#9632; Active</span>
             </div>
-            <span class="entry-badge">&#9733; Achieved</span>
+
+            <div class="doc-sub-rule"></div>
+
+            <!-- EDUCATION -->
+            <h2 class="doc-section-title">Education</h2>
+            <div class="doc-rule"></div>
+
+            <!-- GRADUATION -->
+            <div class="entry edu-entry">
+                <div class="edu-degree-label">GRADUATION</div>
+                <div class="entry-header-simple">
+                    <div class="edu-logo-placeholder">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
+                            <path d="M4 16l16-8 16 8-16 8z"/><path d="M10 19v9a20 10 0 0 0 20 0v-9"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="entry-title">Lovely Professional University &mdash; <a href="https://www.lpu.in/" target="_blank" class="entry-link">[ Link ]</a></div>
+                        <div class="entry-sub">[ B.Tech / CSE ] &mdash; [ since 2023 ] &mdash; <em> Ongoing (will complete on 2027)</em></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12TH -->
+            <div class="entry edu-entry">
+                <div class="edu-degree-label">12TH GRADE</div>
+                <div class="entry-header-simple">
+                    <div class="edu-logo-placeholder">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
+                            <rect x="6" y="10" width="28" height="22" rx="2"/><line x1="13" y1="10" x2="13" y2="32"/><line x1="10" y1="17" x2="13" y2="17"/><line x1="10" y1="22" x2="13" y2="22"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="entry-title">Kendriya Vidyalaya No. 2 Kanchrapara &mdash; <a href="https://no2kanchrapara.kvs.ac.in/" target="_blank" class="entry-link">[ Link ]</a></div>
+                        <div class="entry-sub">[ Non-medical with CS / CBSE ] &mdash; [ 2023 ] &mdash; <em> Completed </em></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10TH -->
+            <div class="entry edu-entry">
+                <div class="edu-degree-label">10TH GRADE</div>
+                <div class="entry-header-simple">
+                    <div class="edu-logo-placeholder">
+                        <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
+                            <rect x="6" y="10" width="28" height="22" rx="2"/><line x1="13" y1="10" x2="13" y2="32"/><line x1="10" y1="17" x2="13" y2="17"/><line x1="10" y1="22" x2="13" y2="22"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="entry-title">Kendriya Vidyalaya BSF Krishnanagar &mdash; <a href="https://bsfkrishnanagar.kvs.ac.in/" target="_blank" class="entry-link">[ Link ]</a></div>
+                        <div class="entry-sub">[ CBSE ] &mdash; [ 2021 ] &mdash;<em> Completed </em></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="doc-sub-rule"></div>
-
-        <!-- EXTRA-CURRICULAR -->
-        <h2 class="doc-section-title">Extra-Curricular Activities</h2>
-        <div class="doc-rule"></div>
-
-        <div class="entry work-entry">
-            <div class="entry-header">
-                <div class="ncc-logo-wrap">
-                    <!-- NCC Emblem SVG placeholder -->
-                    <svg class="entry-platform-logo-svg" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="30" cy="30" r="28" stroke="#8b0000" stroke-width="2"/>
-                        <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#8b0000" font-size="14" font-family="Anton, sans-serif" letter-spacing="2">NCC</text>
-                        <path d="M15 42 Q30 50 45 42" stroke="#8b0000" stroke-width="1.5" fill="none"/>
-                        <path d="M18 20 L30 12 L42 20" stroke="#8b0000" stroke-width="1.5" fill="none"/>
-                    </svg>
-                </div>
-                <div class="entry-title">National Cadet Corps (NCC)</div>
-            </div>
-            <div class="entry-sub">
-                Active NCC cadet. Participated in drills, camps, and community service programs under the NCC banner. Developed leadership, teamwork, and discipline through structured military-style training.
-            </div>
-            <span class="entry-badge">&#9632; Active</span>
-        </div>
-
-        <div class="doc-sub-rule"></div>
-
-        <!-- EDUCATION -->
-        <h2 class="doc-section-title">Education</h2>
-        <div class="doc-rule"></div>
-
-        <!-- GRADUATION -->
-        <div class="entry edu-entry">
-            <div class="edu-degree-label">GRADUATION</div>
-            <div class="entry-header-simple">
-                <div class="edu-logo-placeholder">
-                    <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
-                        <path d="M4 16l16-8 16 8-16 8z"/><path d="M10 19v9a20 10 0 0 0 20 0v-9"/>
-                    </svg>
-                </div>
-                <div>
-                    <div class="entry-title">Lovely Professional University &mdash; <a href="https://www.lpu.in/" target="_blank" class="entry-link">[ Link ]</a></div>
-                    <div class="entry-sub">[ B.Tech / CSE ] &mdash; [ since 2023 ] &mdash; <em> Ongoing (will complete on 2027)</em></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 12TH -->
-        <div class="entry edu-entry">
-            <div class="edu-degree-label">12TH GRADE</div>
-            <div class="entry-header-simple">
-                <div class="edu-logo-placeholder">
-                    <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
-                        <rect x="6" y="10" width="28" height="22" rx="2"/><line x1="13" y1="10" x2="13" y2="32"/><line x1="10" y1="17" x2="13" y2="17"/><line x1="10" y1="22" x2="13" y2="22"/>
-                    </svg>
-                </div>
-                <div>
-                    <div class="entry-title">Kendriya Vidyalaya No. 2 Kanchrapara &mdash; <a href="https://no2kanchrapara.kvs.ac.in/" target="_blank" class="entry-link">[ Link ]</a></div>
-                    <div class="entry-sub">[ Non-medical with CS / CBSE ] &mdash; [ 2023 ] &mdash; <em> Completed </em></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 10TH -->
-        <div class="entry edu-entry">
-            <div class="edu-degree-label">10TH GRADE</div>
-            <div class="entry-header-simple">
-                <div class="edu-logo-placeholder">
-                    <svg viewBox="0 0 40 40" fill="none" stroke="#8b0000" stroke-width="1.5" width="32" height="32">
-                        <rect x="6" y="10" width="28" height="22" rx="2"/><line x1="13" y1="10" x2="13" y2="32"/><line x1="10" y1="17" x2="13" y2="17"/><line x1="10" y1="22" x2="13" y2="22"/>
-                    </svg>
-                </div>
-                <div>
-                    <div class="entry-title">Kendriya Vidyalaya BSF Krishnanagar &mdash; <a href="https://bsfkrishnanagar.kvs.ac.in/" target="_blank" class="entry-link">[ Link ]</a></div>
-                    <div class="entry-sub">[ CBSE ] &mdash; [ 2021 ] &mdash;<em> Completed </em></div>
-                </div>
+        <div class="doc-image-right polaroid">
+            <div class="doc-image-placeholder">
+                <img src="/static/images/Logo.jpg" class="doc-image">
             </div>
         </div>
 
