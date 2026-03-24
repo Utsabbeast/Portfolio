@@ -1,4 +1,28 @@
+// --- Cinematic Viewport Scaler ---
+function applyScaler() {
+    const site = document.querySelector('.site');
+    if (!site) return;
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    
+    // Check if force-landscape is active (portrait mobile without native lock)
+    let isForced = document.body.classList.contains('force-landscape');
+    
+    let availW = isForced ? winH : winW;
+    let availH = isForced ? winW : winH;
+    
+    let scale = Math.min(availW / 1920, availH / 1080);
+    
+    site.style.transform = isForced 
+        ? `rotate(90deg) scale(${scale})` 
+        : `scale(${scale})`;
+}
+window.addEventListener('resize', applyScaler);
+window.addEventListener('orientationchange', () => setTimeout(applyScaler, 100));
+
 document.addEventListener("DOMContentLoaded", () => {
+    applyScaler();
+
     const clickSound = new Audio("/static/images/Select.mp3");
     clickSound.volume = 0.4;
 
