@@ -1,4 +1,4 @@
-# Cinematic Movie Portfolio
+# Movie Portfolio
 
 A high-end, immersive digital portfolio experience built with a "Noir/Cinematic" aesthetic.
 
