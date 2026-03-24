@@ -272,6 +272,35 @@
         }
     });
 
+    /* ─────────── TOUCH / SWIPE ─────────── */
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, {passive: true});
+
+    function handleSwipe() {
+        if (state !== 'normal') return;
+        const swipeThreshold = 50;
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe Left -> Next Page
+            if (currentPage < PAGE_DATA.length - 1) {
+                navigateTo(currentPage + 1);
+            }
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe Right -> Prev Page
+            if (currentPage > 0) {
+                navigateTo(currentPage - 1);
+            }
+        }
+    }
+
     /* ─────────── MOUSE INTERACTIVE ─────────── */
 
     // 1. Navigation Dots

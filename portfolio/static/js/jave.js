@@ -46,9 +46,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.documentElement.requestFullscreen?.().then(() => {
                     // Try to lock orientation on mobile
                     if (screen.orientation && screen.orientation.lock) {
-                        screen.orientation.lock('landscape').catch(() => { });
+                        screen.orientation.lock('landscape').catch(() => {
+                            document.body.classList.add('force-landscape');
+                        });
+                    } else {
+                        document.body.classList.add('force-landscape');
                     }
-                }).catch(() => { });
+                }).catch(() => {
+                    document.body.classList.add('force-landscape');
+                });
             }
 
             step.classList.remove("show");
