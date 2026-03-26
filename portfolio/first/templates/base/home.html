@@ -66,9 +66,15 @@
                 &#9654; Skip
             </button>
 
-            <audio id="bgRain" src="{% static 'images/rain.mp3' %}" loop></audio>
+            <!-- VIDEO ENTER BUTTON — hidden until video finishes one loop -->
+            <button id="video-enter-btn" class="video-enter-btn">
+                ENTER
+            </button>
 
-            <div id="cinemaStage" class="cinema-stage hidden">
+            <audio id="bgRain" src="{% static 'images/rain.mp3' %}" loop></audio>
+        <audio id="select2Sound" src="{% static 'images/Select_2.mp3' %}" preload="auto"></audio>
+
+        <div id="cinemaStage" class="cinema-stage hidden">
                 <iframe 
                     id="shuri-iframe" 
                     src="static/Shuri/Shuri.html" 
@@ -78,16 +84,12 @@
                     style="display:none; background-color: black; border: none; outline: none; width: 100%; height: 100%;">
                 </iframe>
 
-                <video class="cinema-item" data-type="video" preload="auto" playsinline>
-                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
+                <video class="cinema-item" data-type="video" preload="auto" playsinline loop>
+                    <source src="{% static 'images/Hand.mp4' %}" type="video/mp4">
                 </video>
 
                 <video class="cinema-item" data-type="video" preload="auto" playsinline>
-                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
-                </video>
-
-                <video class="cinema-item" data-type="video" preload="auto" playsinline>
-                    <source src="{% static 'images/Intro.mp4' %}" type="video/mp4">
+                    <source src="{% static 'images/walk.mp4' %}" type="video/mp4">
                 </video>
 
                 <iframe

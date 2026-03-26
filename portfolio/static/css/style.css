@@ -170,6 +170,54 @@ html, body {
     opacity: 1 !important;
 }
 
+/* --- Video Enter Button --- */
+#video-enter-btn {
+    display: none;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #ffffff;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 10px 30px;
+    cursor: pointer;
+    border-radius: 3px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    filter: url(#handDrawnNoise);
+    transition: all 0.3s ease;
+    animation: blinkVideoEnter 2s infinite ease-in-out;
+}
+
+#video-enter-btn.show {
+    display: block;
+}
+
+@keyframes blinkVideoEnter {
+    0%, 100% { 
+        opacity: 1; 
+        filter: url(#handDrawnNoise) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); 
+    }
+    50% { 
+        opacity: 0.3; 
+        filter: url(#handDrawnNoise) drop-shadow(0 0 1px rgba(255, 255, 255, 0.1)); 
+    }
+}
+
+#video-enter-btn:hover {
+    color: #ffffff;
+    border-color: #ff3e3e;
+    background: rgba(180, 0, 0, 0.3);
+    animation: none;
+    opacity: 1;
+}
+
 /* --- Skip to Folio Button --- */
 @keyframes blink {
     0%, 100% { opacity: 0.5; } /* Less dimmer */

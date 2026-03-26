@@ -40,8 +40,6 @@
     /* ─────────── ELEMENTS ─────────── */
     const site           = document.getElementById('site');
     const paperCard      = document.getElementById('paper-card');
-    const vidTransition  = document.getElementById('vid-transition');
-    const vidInspectEnt  = document.getElementById('vid-inspect-entry');
     const pageLabel      = document.getElementById('page-label');
     const hintLeft       = document.getElementById('hint-left');
     const hintRight      = document.getElementById('hint-right');
@@ -120,6 +118,8 @@
         if (nextIdx < 0 || nextIdx >= PAGE_DATA.length) return;
         if (nextIdx === currentPage) return;
 
+        playSelect2();
+
         state = 'transitioning';
         site.classList.add('transitioning');
         updateArrows();
@@ -127,14 +127,37 @@
 
         hideVideo(getBgVideo(currentPage));
 
-        vidTransition.currentTime = 0;
-        showVideo(vidTransition);
-        vidTransition.play().catch(() => {});
+        const transitionId = `vid-transition-${currentPage}-${nextIdx}`;
+        const vidTransition = document.getElementById(transitionId);
 
-        function afterTransition() {
-            vidTransition.removeEventListener('ended', afterTransition);
-            hideVideo(vidTransition);
+        if (vidTransition) {
+            vidTransition.currentTime = 0;
+            showVideo(vidTransition);
+            vidTransition.play().catch(() => {});
 
+            function afterTransition() {
+                vidTransition.removeEventListener('ended', afterTransition);
+                hideVideo(vidTransition);
+
+                currentPage = nextIdx;
+                updatePageMeta(currentPage);
+                loadPanels(currentPage);
+                showVideo(getBgVideo(currentPage));
+
+                site.classList.remove('transitioning');
+                state = 'normal';
+                updateArrows();
+                updateEndButton();
+            }
+
+            vidTransition.addEventListener('ended', afterTransition, { once: true });
+
+            // Fallback: skip after 2s if no video
+            setTimeout(() => {
+                if (state === 'transitioning') afterTransition();
+            }, 2000);
+        } else {
+            // Fallback immediately if transition video is entirely missing
             currentPage = nextIdx;
             updatePageMeta(currentPage);
             loadPanels(currentPage);
@@ -145,13 +168,6 @@
             updateArrows();
             updateEndButton();
         }
-
-        vidTransition.addEventListener('ended', afterTransition, { once: true });
-
-        // Fallback: skip after 2s if no video
-        setTimeout(() => {
-            if (state === 'transitioning') afterTransition();
-        }, 2000);
     }
 
     /* ─────────── NORMAL → INSPECT (ENTER) ─────────── */
@@ -159,31 +175,26 @@
         if (state !== 'normal') return;
         playSelect();
 
-        state = 'inspect-entry';
+        state = 'inspect';
         updateArrows();
         updateEndButton();
+        updateVerb();
 
-        vidInspectEnt.currentTime = 0;
-        showVideo(vidInspectEnt);
-        vidInspectEnt.play().catch(() => {});
+        // Show full-screen image (bottom layer)
+        const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
+        if (imgEnt) showVideo(imgEnt);
 
-        function afterEntry() {
-            vidInspectEnt.removeEventListener('ended', afterEntry);
-            hideVideo(vidInspectEnt);
-
-            state = 'inspect';
-            site.classList.add('inspect-active');
-            updateArrows();
-            updateEndButton();
-            updateVerb();
+        // Show looping video and fade audio in
+        const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
+        if (vidInspectEnt) {
+            vidInspectEnt.currentTime = 0;
+            vidInspectEnt.volume = 0;
+            showVideo(vidInspectEnt);
+            vidInspectEnt.play().catch(() => {});
+            fadeInAudio(vidInspectEnt, 1.0, 1000);
         }
 
-        vidInspectEnt.addEventListener('ended', afterEntry, { once: true });
-
-        // Fallback: skip after 2s if no video
-        setTimeout(() => {
-            if (state === 'inspect-entry') afterEntry();
-        }, 2000);
+        site.classList.add('inspect-active');
     }
 
     /* ─────────── INSPECT → NORMAL (ENTER again) ─────────── */
@@ -192,10 +203,48 @@
         playSelect();
 
         site.classList.remove('inspect-active');
+
+        const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
+        if (vidInspectEnt) {
+            fadeOutAudio(vidInspectEnt, 800, () => {
+                hideVideo(vidInspectEnt);
+                vidInspectEnt.pause();
+            });
+        }
+
+        const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
+        if (imgEnt) hideVideo(imgEnt);
+
         state = 'normal';
         updateArrows();
         updateEndButton();
         updateVerb();
+    }
+
+    /* ─────────── AUDIO FADE HELPERS ─────────── */
+    function fadeInAudio(el, targetVol, durationMs) {
+        const steps = 30;
+        const stepTime = durationMs / steps;
+        const increment = targetVol / steps;
+        let current = 0;
+        const timer = setInterval(() => {
+            current = Math.min(current + increment, targetVol);
+            el.volume = current;
+            if (current >= targetVol) clearInterval(timer);
+        }, stepTime);
+    }
+
+    function fadeOutAudio(el, durationMs, onDone) {
+        const steps = 30;
+        const stepTime = durationMs / steps;
+        const decrement = el.volume / steps;
+        const timer = setInterval(() => {
+            el.volume = Math.max(0, el.volume - decrement);
+            if (el.volume <= 0) {
+                clearInterval(timer);
+                if (onDone) onDone();
+            }
+        }, stepTime);
     }
 
     /* ─────────── FINAL CREDITS ─────────── */
@@ -237,7 +286,7 @@
 
     /* ─────────── CV POPUP ─────────── */
     window.openCV = function() {
-        playSelect();
+        playSelect2();
         if (cvOverlay) {
             cvOverlay.style.display = 'flex';
         }
@@ -254,10 +303,18 @@
 
     /* ─────────── KEYBOARD ─────────── */
     const selectSound = document.getElementById('selectSound');
+    const select2Sound = document.getElementById('select2Sound');
     function playSelect() {
         if (selectSound) {
             selectSound.currentTime = 0;
             selectSound.play().catch(() => {});
+        }
+    }
+    
+    function playSelect2() {
+        if (select2Sound) {
+            select2Sound.currentTime = 0;
+            select2Sound.play().catch(() => {});
         }
     }
 

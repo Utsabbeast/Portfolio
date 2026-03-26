@@ -141,8 +141,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = items[currentItemIndex];
 
         if (bgRain) bgRain.style.opacity = "0";
-        item.style.display = "";
-        item.classList.add("show");
+        item.style.display = "block";
+        
+        // Slight delay ensures the element is rendered as block before CSS transition on opacity begins
+        setTimeout(() => {
+            if (isCinemaInterrupted || skipFolioActive) return;
+            item.classList.add("show");
+        }, 50);
 
         if (item.tagName.toLowerCase() === "iframe" || item.dataset.type === "iframe") {
             if (item.id === "shuri-iframe") {
@@ -159,9 +164,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.classList.remove("show");
                     cinemaTimer = setTimeout(() => {
                         if (isCinemaInterrupted || skipFolioActive) return;
+                        item.style.display = "none";
                         currentItemIndex++;
                         playNext();
-                    }, 1500);
+                    }, 1500); // 1.5s fade out
                 }, 16000);
 
             } else if (item.id === "folio-iframe") {
@@ -182,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 item.classList.remove("show");
                 cinemaTimer = setTimeout(() => {
                     if (isCinemaInterrupted || skipFolioActive) return;
+                    item.style.display = "none";
                     currentItemIndex++;
                     playNext();
                 }, 1500);
@@ -199,14 +206,90 @@ document.addEventListener("DOMContentLoaded", () => {
             item.currentTime = 0;
             item.play().catch(e => console.error("Video play error:", e));
 
+            const enterBtn = document.getElementById("video-enter-btn");
+            let enterShown = false;
+            let keydownHandler = null;
+
+            const onTimeUpdate = () => {
+                if (isCinemaInterrupted || skipFolioActive) {
+                    item.removeEventListener("timeupdate", onTimeUpdate);
+                    return;
+                }
+
+                // Only show ENTER button for looping videos (Hand.mp4 has loop attr)
+                if (item.loop && !enterShown && item.currentTime >= item.duration - 0.2 && item.duration > 0) {
+                    enterShown = true;
+                    if (enterBtn) {
+                        enterBtn.classList.add("show");
+                        
+                        const proceedNext = () => {
+                            const select2 = document.getElementById("select2Sound");
+                            if (select2) {
+                                select2.currentTime = 0;
+                                select2.play().catch(() => {});
+                            }
+                            enterBtn.classList.remove("show");
+                            enterBtn.removeEventListener("click", proceedNext);
+                            if (keydownHandler) document.removeEventListener("keydown", keydownHandler);
+                            item.removeEventListener("timeupdate", onTimeUpdate);
+                            
+                            item.classList.remove("show");
+                            
+                            cinemaTimer = setTimeout(() => {
+                                if (isCinemaInterrupted || skipFolioActive) return;
+                                item.style.display = "none";
+                                item.pause();
+                                currentItemIndex++;
+                                playNext();
+                            }, 1500);
+                        };
+                        
+                        enterBtn.addEventListener("click", proceedNext);
+
+                        keydownHandler = (e) => {
+                            if (e.key === "Enter" && enterShown) {
+                                e.preventDefault();
+                                proceedNext();
+                            }
+                        };
+                        document.addEventListener("keydown", keydownHandler);
+                    } else {
+                        item.removeEventListener("timeupdate", onTimeUpdate);
+                        item.classList.remove("show");
+                        cinemaTimer = setTimeout(() => {
+                            if (isCinemaInterrupted || skipFolioActive) return;
+                            item.style.display = "none";
+                            item.pause();
+                            currentItemIndex++;
+                            playNext();
+                        }, 1500);
+                    }
+                }
+            };
+
+            item.addEventListener("timeupdate", onTimeUpdate);
+
+            // For non-first videos (walk.mp4 etc): auto-advance on end
             item.onended = () => {
-                if (isCinemaInterrupted || skipFolioActive) return;
-                item.classList.remove("show");
-                cinemaTimer = setTimeout(() => {
+                if (item.loop) {
+                    // Hand.mp4 (has loop attr): loop until ENTER pressed
+                    if (!enterShown) {
+                        item.currentTime = 0;
+                        item.play().catch(() => {});
+                    }
+                } else {
+                    // All other videos: auto-advance
                     if (isCinemaInterrupted || skipFolioActive) return;
-                    currentItemIndex++;
-                    playNext();
-                }, 1200);
+                    item.removeEventListener("timeupdate", onTimeUpdate);
+                    item.classList.remove("show");
+                    cinemaTimer = setTimeout(() => {
+                        if (isCinemaInterrupted || skipFolioActive) return;
+                        item.style.display = "none";
+                        item.pause();
+                        currentItemIndex++;
+                        playNext();
+                    }, 1500);
+                }
             };
         }
     }
@@ -216,6 +299,12 @@ document.addEventListener("DOMContentLoaded", () => {
         skipFolioActive = true;
         isCinemaInterrupted = true;
         if (cinemaTimer) clearTimeout(cinemaTimer);
+
+        // Hide the enter button if it's there
+        const enterBtn = document.getElementById("video-enter-btn");
+        if (enterBtn) {
+            enterBtn.classList.remove("show");
+        }
 
         // Hide any visible checkbox step
         steps.forEach(s => { s.classList.remove("show"); s.style.display = "none"; });

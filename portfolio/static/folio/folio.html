@@ -23,30 +23,45 @@
     <div class="film-grain"></div>
 
     <!-- BG VIDEOS — one per page -->
-    <video id="vid-p1" class="vid-layer page-bg" autoplay muted loop playsinline>
-        <source src="page1_bg.mp4" type="video/mp4">
+    <video id="vid-p1" class="vid-layer page-bg" autoplay loop playsinline>
+        <source src="/static/images/Side_1.mp4" type="video/mp4">
     </video>
-    <video id="vid-p2" class="vid-layer page-bg" autoplay muted loop playsinline>
-        <source src="page2_bg.mp4" type="video/mp4">
+    <video id="vid-p2" class="vid-layer page-bg" autoplay loop playsinline>
+        <source src="/static/images/Side_2.mp4" type="video/mp4">
     </video>
-    <video id="vid-p3" class="vid-layer page-bg" autoplay muted loop playsinline>
-        <source src="page3_bg.mp4" type="video/mp4">
-    </video>
-
-    <!-- TRANSITION VIDEO -->
-    <video id="vid-transition" class="vid-layer" muted playsinline>
-        <source src="transition.mp4" type="video/mp4">
+    <video id="vid-p3" class="vid-layer page-bg" autoplay loop playsinline>
+        <source src="/static/images/Side_3.mp4" type="video/mp4">
     </video>
 
-    <!-- INSPECT ENTRY VIDEO -->
-    <video id="vid-inspect-entry" class="vid-layer" muted playsinline>
-        <source src="inspect_entry.mp4" type="video/mp4">
+    <!-- TRANSITION VIDEOS (4 Total) -->
+    <video id="vid-transition-0-1" class="vid-layer transition-vid" playsinline>
+        <source src="/static/images/Page_1_2.mp4" type="video/mp4">
+    </video>
+    <video id="vid-transition-1-2" class="vid-layer transition-vid" playsinline>
+        <source src="/static/images/Page_2_3.mp4" type="video/mp4">
+    </video>
+    <video id="vid-transition-1-0" class="vid-layer transition-vid" playsinline>
+        <source src="/static/images/Page_2_1.mp4" type="video/mp4">
+    </video>
+    <video id="vid-transition-2-1" class="vid-layer transition-vid" playsinline>
+        <source src="/static/images/Page_3_2.mp4" type="video/mp4">
     </video>
 
-    <!-- UNDER DEV BACKGROUND (Global) -->
-    <video id="vid-under-dev" class="vid-layer visible" autoplay muted loop playsinline style="z-index: 0; opacity: 0.4;">
-        <source src="/static/images/Under_DEV.mp4" type="video/mp4">
+    <!-- INSPECT ENTRY VIDEOS (3 Total) -->
+    <video id="vid-inspect-entry-0" class="vid-layer inspect-vid" loop playsinline>
+        <source src="/static/images/Top1.mp4" type="video/mp4">
     </video>
+    <video id="vid-inspect-entry-1" class="vid-layer inspect-vid" loop playsinline>
+        <source src="/static/images/Top2.mp4" type="video/mp4">
+    </video>
+    <video id="vid-inspect-entry-2" class="vid-layer inspect-vid" loop playsinline>
+        <source src="/static/images/Top3.mp4" type="video/mp4">
+    </video>
+
+    <!-- INSPECT ENTRY IMAGES (3 Total) -->
+    <div id="img-inspect-entry-0" class="vid-layer inspect-img" style="background: url('/static/images/page_first.png') center/cover no-repeat;"></div>
+    <div id="img-inspect-entry-1" class="vid-layer inspect-img" style="background: url('/static/images/page_second.png') center/cover no-repeat;"></div>
+    <div id="img-inspect-entry-2" class="vid-layer inspect-img" style="background: url('/static/images/page_third.png') center/cover no-repeat;"></div>
 
     <!-- DARK GLASS -->
     <div id="inspect-glass"></div>
@@ -110,7 +125,7 @@
                 <span class="credits-name">
                     <a href="https://www.linkedin.com/in/aditya-labhade-3150ab397/" target="_blank">LINKEDIN</a>
                     &nbsp;·&nbsp;
-                    <a href="https://github.com/" target="_blank">GITHUB</a>
+                    <a href="https://github.com/Aditya-lbhd" target="_blank">GITHUB</a>
                 </span>
             </div>
 
@@ -538,6 +553,7 @@
 </template>
 
 <audio id="selectSound" src="/static/images/Select.mp3" preload="auto"></audio>
-<script src="folio.js?v=2"></script>
+<audio id="select2Sound" src="/static/images/Select_2.mp3" preload="auto"></audio>
+<script src="folio.js?v=3"></script>
 </body>
 </html>
