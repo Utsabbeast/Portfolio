@@ -24,39 +24,39 @@
     <div class="film-grain"></div>
 
     <!-- BG VIDEOS — one per page -->
-    <video id="vid-p1" class="vid-layer page-bg" autoplay loop playsinline>
+    <video id="vid-p1" class="vid-layer page-bg" autoplay loop playsinline muted>
         <source src="{% static 'images/Side_1.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-p2" class="vid-layer page-bg" autoplay loop playsinline>
+    <video id="vid-p2" class="vid-layer page-bg" autoplay loop playsinline muted>
         <source src="{% static 'images/Side_2.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-p3" class="vid-layer page-bg" autoplay loop playsinline>
+    <video id="vid-p3" class="vid-layer page-bg" autoplay loop playsinline muted>
         <source src="{% static 'images/Side_3.mp4' %}" type="video/mp4">
     </video>
 
     <!-- TRANSITION VIDEOS (4 Total) -->
-    <video id="vid-transition-0-1" class="vid-layer transition-vid" playsinline>
+    <video id="vid-transition-0-1" class="vid-layer transition-vid" playsinline muted>
         <source src="{% static 'images/Page_1_2.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-transition-1-2" class="vid-layer transition-vid" playsinline>
+    <video id="vid-transition-1-2" class="vid-layer transition-vid" playsinline muted>
         <source src="{% static 'images/Page_2_3.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-transition-1-0" class="vid-layer transition-vid" playsinline>
+    <video id="vid-transition-1-0" class="vid-layer transition-vid" playsinline muted>
         <source src="{% static 'images/Page_2_1.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-transition-2-1" class="vid-layer transition-vid" playsinline>
+    <video id="vid-transition-2-1" class="vid-layer transition-vid" playsinline muted>
         <!-- FALLBACK for missing Page_3_2.mp4 by using Page_2_3.mp4 reversed if possible, but here we just reuse or use blank -->
         <source src="{% static 'images/Page_2_3.mp4' %}" type="video/mp4">
     </video>
 
     <!-- INSPECT ENTRY VIDEOS (3 Total) -->
-    <video id="vid-inspect-entry-0" class="vid-layer inspect-vid" loop playsinline>
+    <video id="vid-inspect-entry-0" class="vid-layer inspect-vid" loop playsinline muted>
         <source src="{% static 'images/Top1.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-inspect-entry-1" class="vid-layer inspect-vid" loop playsinline>
+    <video id="vid-inspect-entry-1" class="vid-layer inspect-vid" loop playsinline muted>
         <source src="{% static 'images/Top2.mp4' %}" type="video/mp4">
     </video>
-    <video id="vid-inspect-entry-2" class="vid-layer inspect-vid" loop playsinline>
+    <video id="vid-inspect-entry-2" class="vid-layer inspect-vid" loop playsinline muted>
         <source src="{% static 'images/Top3.mp4' %}" type="video/mp4">
     </video>
 

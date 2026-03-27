@@ -107,7 +107,12 @@
     function init() {
         loadPanels(0);
         updatePageMeta(0);
-        showVideo(getBgVideo(0));
+        const v0 = getBgVideo(0);
+        if (v0) {
+            v0.muted = true;
+            showVideo(v0);
+            v0.play().catch(e => console.warn("Initial autoplay blocked:", e));
+        }
         updateArrows();
         updateEndButton();
     }
@@ -132,6 +137,7 @@
 
         if (vidTransition) {
             vidTransition.currentTime = 0;
+            vidTransition.muted = true;
             showVideo(vidTransition);
             vidTransition.play().catch(() => {});
 
@@ -142,7 +148,12 @@
                 currentPage = nextIdx;
                 updatePageMeta(currentPage);
                 loadPanels(currentPage);
-                showVideo(getBgVideo(currentPage));
+                const vNext = getBgVideo(currentPage);
+                if (vNext) {
+                    vNext.muted = true;
+                    showVideo(vNext);
+                    vNext.play().catch(() => {});
+                }
 
                 site.classList.remove('transitioning');
                 state = 'normal';
@@ -187,6 +198,7 @@
         // Show looping video and fade audio in
         const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
         if (vidInspectEnt) {
+            vidInspectEnt.muted = true;
             vidInspectEnt.currentTime = 0;
             vidInspectEnt.volume = 0;
             showVideo(vidInspectEnt);
