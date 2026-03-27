@@ -47,4 +47,11 @@ venv.bak/
 
 # OS files
 .DS_Store
-Thumbs.db
+# Large Media Files (>100MB)
+portfolio/static/images/Hand.mp4
+portfolio/static/images/Top2.mp4
+portfolio/static/images/Top3.mp4
+portfolio/static/images/walk.mp4
+portfolio/static/images/Side_1.mp4
+portfolio/static/images/Side_2.mp4
+portfolio/static/images/Side_3.mp4
