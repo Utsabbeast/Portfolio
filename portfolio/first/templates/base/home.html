@@ -76,7 +76,7 @@
         <div id="cinemaStage" class="cinema-stage hidden">
                 <iframe 
                     id="shuri-iframe" 
-                    src="/static/Shuri/Shuri.html" 
+                    src="{% url 'shuri' %}" 
                     class="cinema-item" 
                     data-type="iframe"
                     allow="autoplay; fullscreen" 
@@ -93,7 +93,7 @@
 
                 <iframe
                     id="folio-iframe"
-                    data-src="/static/folio/folio.html?v={% now "U" %}"
+                    data-src="{% url 'folio' %}?v={% now 'U' %}"
                     src="about:blank"
                     class="cinema-item"
                     data-type="iframe"

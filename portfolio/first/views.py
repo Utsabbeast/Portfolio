@@ -11,3 +11,9 @@ def home(request):
 
 def terms(request):
     return render(request, "base/terms.html")
+
+def folio(request):
+    return render(request, "folio/folio.html")
+
+def shuri(request):
+    return render(request, "Shuri/Shuri.html")
