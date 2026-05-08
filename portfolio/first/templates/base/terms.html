@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,27 +5,27 @@
     <title>Terms & Conditions</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/terms.css' %}">
-    <link rel="icon" type="image/x-icon" href="{% static 'images/Shuriken icon.ico' %}">
+    <link rel="stylesheet" href="/static/css/terms.css">
+    <link rel="icon" type="image/x-icon" href="/static/images/Shuriken icon.ico">
 </head>
 
 <body>
 
 <svg height="0" width="0" style="position: absolute;">
   <filter id="handDrawnNoise">
-    <feTurbulence result="noise" numOctaves="8" baseFrequency="0.1" type="fractalNoise"></feTurbulence>
+    <feTurbulence result="noise" numOctaves="2" baseFrequency="0.1" type="fractalNoise"></feTurbulence>
     <feDisplacementMap yChannelSelector="G" xChannelSelector="R" scale="3" in2="noise" in="SourceGraphic"></feDisplacementMap>
   </filter>
 </svg>
 
-<audio id="hoverSound" src="{% static 'audio/hover.mp3' %}" preload="auto"></audio>
-<audio id="bgMusic" src="{% static 'images/TermsBGloop.mp3' %}" loop preload="auto"></audio>
+<audio id="hoverSound" src="/static/audio/hover.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="/static/images/TermsBGloop.mp3" loop preload="auto"></audio>
 
 <div class="WinAlignment">
     <div class="site">
 
         <video class="bg-video" autoplay muted loop playsinline>
-            <source src="{% static 'images/TermspageBG.mp4' %}" type="video/mp4">
+            <source src="/static/images/TermspageBG.mp4" type="video/mp4">
         </video>
 
         <div class="vignette"></div>
@@ -96,7 +95,7 @@
     </div>
 </div>
 
-<script src="{% static 'js/terms.js' %}"></script>
+<script src="/static/js/terms.js"></script>
 
 </body>
 </html>

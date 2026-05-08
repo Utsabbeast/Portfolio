@@ -4,18 +4,17 @@ function applyScaler() {
     if (!site) return;
     const winW = window.innerWidth;
     const winH = window.innerHeight;
-    
-    // Check if force-landscape is active (portrait mobile without native lock)
+
     let isForced = document.body.classList.contains('force-landscape');
-    
+
     let availW = isForced ? winH : winW;
     let availH = isForced ? winW : winH;
-    
-    let scale = Math.min(availW / 1440, availH / 810);
-    
-    site.style.transform = isForced 
-        ? `rotate(90deg) scale(${scale})` 
-        : `scale(${scale})`;
+
+    let scale = Math.min(availW / 1920, availH / 1080);
+
+    site.style.transform = isForced
+        ? `translate(-50%, -50%) rotate(90deg) scale(${scale})`
+        : `translate(-50%, -50%) scale(${scale})`;
 }
 window.addEventListener('resize', applyScaler);
 window.addEventListener('orientationchange', () => setTimeout(applyScaler, 100));
@@ -23,7 +22,7 @@ window.addEventListener('orientationchange', () => setTimeout(applyScaler, 100))
 document.addEventListener("DOMContentLoaded", () => {
     applyScaler();
 
-    const clickSound = new Audio("/static/images/Select.mp3");
+    const clickSound = new Audio("static/images/Select.mp3");
     clickSound.volume = 0.4;
 
     const steps = Array.from(document.querySelectorAll(".notebook-checkbox"));
@@ -142,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (bgRain) bgRain.style.opacity = "0";
         item.style.display = "block";
-        
+
         // Slight delay ensures the element is rendered as block before CSS transition on opacity begins
         setTimeout(() => {
             if (isCinemaInterrupted || skipFolioActive) return;
@@ -151,13 +150,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (item.tagName.toLowerCase() === "iframe" || item.dataset.type === "iframe") {
             if (item.id === "shuri-iframe") {
-                item.src = "/static/Shuri/Shuri.html";
+                item.src = item.getAttribute("data-src") || item.src || "static/Shuri/Shuri.html";
+                let shuriPing;
                 item.onload = () => {
                     if (isCinemaInterrupted || skipFolioActive) return;
-                    setTimeout(() => {
-                        if (isCinemaInterrupted || skipFolioActive) return;
+                    console.log("Shuri iframe loaded, starting ping...");
+
+                    // Respond to acknowledgement
+                    const handleAck = (e) => {
+                        if (e.data === "shuriReady") {
+                            console.log("Shuri acknowledged, stop ping.");
+                            clearInterval(shuriPing);
+                            window.removeEventListener("message", handleAck);
+                        }
+                    };
+                    window.addEventListener("message", handleAck);
+
+                    shuriPing = setInterval(() => {
+                        if (isCinemaInterrupted || skipFolioActive) {
+                            clearInterval(shuriPing);
+                            return;
+                        }
+                        console.log("Pinging Shuri...");
                         item.contentWindow.postMessage("startShuri", "*");
-                    }, 100);
+                    }, 500);
                 };
                 cinemaTimer = setTimeout(() => {
                     if (isCinemaInterrupted || skipFolioActive) return;
@@ -173,10 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (item.id === "folio-iframe") {
                 item.src = item.getAttribute("data-src") || item.src;
                 item.onload = () => {
-                   if (item.contentWindow) {
-                       item.focus();
-                       item.contentWindow.focus();
-                   }
+                    if (item.contentWindow) {
+                        item.focus();
+                        item.contentWindow.focus();
+                    }
                 };
                 const skipBtn = document.getElementById("skip-to-folio");
                 if (skipBtn) skipBtn.style.display = "none";
@@ -221,20 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     enterShown = true;
                     if (enterBtn) {
                         enterBtn.classList.add("show");
-                        
+
                         const proceedNext = () => {
                             const select2 = document.getElementById("select2Sound");
                             if (select2) {
                                 select2.currentTime = 0;
-                                select2.play().catch(() => {});
+                                select2.play().catch(() => { });
                             }
                             enterBtn.classList.remove("show");
                             enterBtn.removeEventListener("click", proceedNext);
                             if (keydownHandler) document.removeEventListener("keydown", keydownHandler);
                             item.removeEventListener("timeupdate", onTimeUpdate);
-                            
+
                             item.classList.remove("show");
-                            
+
                             cinemaTimer = setTimeout(() => {
                                 if (isCinemaInterrupted || skipFolioActive) return;
                                 item.style.display = "none";
@@ -243,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 playNext();
                             }, 1500);
                         };
-                        
+
                         enterBtn.addEventListener("click", proceedNext);
 
                         keydownHandler = (e) => {
@@ -275,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Hand.mp4 (has loop attr): loop until ENTER pressed
                     if (!enterShown) {
                         item.currentTime = 0;
-                        item.play().catch(() => {});
+                        item.play().catch(() => { });
                     }
                 } else {
                     // All other videos: auto-advance

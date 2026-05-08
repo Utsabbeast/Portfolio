@@ -14,15 +14,21 @@ html, body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 100vw;
+    background: #000;
+    overflow: hidden;
 }
 
 .site {
-    aspect-ratio: 16/9;
-    width: min(100vw, calc(100vh * 16/9));
-    height: 100%;
-    position: relative;
+    width: 1920px;
+    height: 1080px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: black;
     overflow: hidden;
+    transform-origin: center;
 }
 
 /* ---------------- CINEMATIC BACKGROUNDS ---------------- */

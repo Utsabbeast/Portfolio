@@ -47,6 +47,7 @@ function thunderStrike() {
 
 // --- AUDIO LOGIC ---
 
+// Fixed path: Shuri.js is in static/Shuri/, audio is in static/images/
 const slashAudio = new Audio("../images/sword-slash.mp3");
 const glitchAudio = new Audio("../images/glitch-sound.mp3");
 
@@ -54,7 +55,6 @@ slashAudio.volume = 1.0;
 glitchAudio.volume = 0.8;
 
 function playSlashSound() {
-    // Reset audio so it can play again
     slashAudio.currentTime = 0;
     slashAudio.play().catch(e => console.log("Slash sound blocked"));
 
@@ -69,18 +69,10 @@ function playSlashSound() {
 createRain();
 createEmbers();
 
-
 function startShuriIntro() {
     shurikenLogo.classList.remove('hidden');
     shurikenLogo.classList.remove('fade-out');
     console.log("Shuri Sequence Started");
-    if (slashAudio.context && slashAudio.context.state === 'suspended') {
-        slashAudio.context.resume();
-    }
-
-    // Start visuals immediately
-    createRain(); 
-    createEmbers();
 
     // 1. Play first slash sound (Shuriken)
     setTimeout(playSlashSound, 2500);
@@ -99,15 +91,24 @@ function startShuriIntro() {
     setTimeout(() => {
         shurikenLogo.classList.add('hidden');
         presentsLogo.classList.remove('hidden');
-        
+
         // Slash sound for 'Presents' (matches 1.2s delay in CSS)
-        setTimeout(playSlashSound, 1200); 
-    }, 10000); 
+        setTimeout(playSlashSound, 1200);
+    }, 10000);
 }
 
-// Listen for message from parent
+// Listen for message from parent (when embedded in iframe)
+let shuriStarted = false;
 window.addEventListener("message", (event) => {
-    if (event.data === "startShuri") {
+    if (event.data === "startShuri" && !shuriStarted) {
+        shuriStarted = true;
+        // Acknowledge so parent stops pinging
+        if (event.source) event.source.postMessage("shuriReady", "*");
         startShuriIntro();
     }
 });
+
+// Auto-start if running standalone (no parent iframe)
+if (window.parent === window) {
+    setTimeout(startShuriIntro, 500);
+}

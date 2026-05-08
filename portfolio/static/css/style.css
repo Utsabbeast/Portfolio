@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -7,7 +8,9 @@ html, body {
     outline: none;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     outline: none;
 }
@@ -22,23 +25,36 @@ html, body {
 }
 
 .site {
-    width: 1440px;
-    height: 810px;
+    width: 1920px;
+    height: 1080px;
     flex-shrink: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     transform-origin: center center;
-    position: relative;
     background: black;
     overflow: hidden;
 }
 
 /* --- Atmospheric Backgrounds --- */
 @keyframes slowFloat {
-    0% { transform: scale(1.1) translateX(-1.5%); }
-    50% { transform: scale(1.1) translateX(1.5%); }
-    100% { transform: scale(1.1) translateX(-1.5%); }
+    0% {
+        transform: scale(1.1) translateX(-1.5%);
+    }
+
+    50% {
+        transform: scale(1.1) translateX(1.5%);
+    }
+
+    100% {
+        transform: scale(1.1) translateX(-1.5%);
+    }
 }
 
-.bgTerms, .bgSOUND, .bgFULL {
+.bgTerms,
+.bgSOUND,
+.bgFULL {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -81,7 +97,7 @@ html, body {
     align-items: center;
     font-family: "Courier New", monospace;
     font-weight: bold;
-    font-size: 2.8rem;
+    font-size: 3.7rem;
     color: white;
     cursor: pointer;
     opacity: 0;
@@ -114,12 +130,13 @@ html, body {
 }
 
 .text-content:hover {
-    color: rgb(107, 107, 107); /* Dims the main text */
+    color: rgb(107, 107, 107);
+    /* Dims the main text */
 }
 
 /* "READ" Subtitle: Moves to next line */
 .terms-sub {
-    display: block; 
+    display: block;
     font-size: 0.4em;
     margin-top: 20px;
     letter-spacing: 4px;
@@ -128,13 +145,16 @@ html, body {
 /* "READ" Link: Pure white on hover */
 .inline-terms-link {
     text-decoration: none;
-    color: #ff3e3e; /* Original red */
+    color: #ff3e3e;
+    /* Original red */
     transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .inline-terms-link:hover {
-    color: #ffffff !important; /* Pure White */
-    opacity: 1 !important; /* Ensures it doesn't dim with the parent if you target it */
+    color: #ffffff !important;
+    /* Pure White */
+    opacity: 1 !important;
+    /* Ensures it doesn't dim with the parent if you target it */
 }
 
 /* --- Cinema Stage --- */
@@ -160,21 +180,26 @@ html, body {
     opacity: 0;
     transition: opacity 2s ease;
     pointer-events: none;
-    display: none; /* Hidden by default */
-    z-index: -1; /* Start behind */
+    display: none;
+    /* Hidden by default */
+    z-index: -1;
+    /* Start behind */
 }
 
 .cinema-item.show {
     display: block !important;
-    z-index: 9999 !important; /* Bring to the very front */
+    z-index: 9999 !important;
+    /* Bring to the very front */
     opacity: 1 !important;
+    pointer-events: auto !important;
+    /* Allow clicks inside iframes */
 }
 
 /* --- Video Enter Button --- */
 #video-enter-btn {
     display: none;
     position: absolute;
-    bottom: 50px;
+    bottom: 66px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10000;
@@ -182,10 +207,10 @@ html, body {
     border: 1px solid rgba(255, 255, 255, 0.6);
     color: #ffffff;
     font-family: "Courier New", monospace;
-    font-size: 14px;
+    font-size: 19px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    padding: 10px 30px;
+    padding: 13px 40px;
     cursor: pointer;
     border-radius: 3px;
     backdrop-filter: blur(8px);
@@ -200,13 +225,16 @@ html, body {
 }
 
 @keyframes blinkVideoEnter {
-    0%, 100% { 
-        opacity: 1; 
-        filter: url(#handDrawnNoise) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); 
+
+    0%,
+    100% {
+        opacity: 1;
+        filter: url(#handDrawnNoise) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     }
-    50% { 
-        opacity: 0.3; 
-        filter: url(#handDrawnNoise) drop-shadow(0 0 1px rgba(255, 255, 255, 0.1)); 
+
+    50% {
+        opacity: 0.3;
+        filter: url(#handDrawnNoise) drop-shadow(0 0 1px rgba(255, 255, 255, 0.1));
     }
 }
 
@@ -220,24 +248,36 @@ html, body {
 
 /* --- Skip to Folio Button --- */
 @keyframes blink {
-    0%, 100% { opacity: 0.5; } /* Less dimmer */
-    50% { opacity: 0.25; }
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    /* Less dimmer */
+    50% {
+        opacity: 0.25;
+    }
 }
 
 #skip-to-folio {
-    display: none; /* shown by JS after permissions */
+    display: none;
+    /* shown by JS after permissions */
     position: absolute;
-    bottom: 22px;
-    right: 28px;
+    bottom: 29px;
+    right: 37px;
     z-index: 10000;
-    background: rgba(0, 0, 0, 0.5); /* Less dimmer background */
-    border: 1px solid rgba(180, 0, 0, 0.4); /* Less dimmer border */
-    color: rgba(255, 255, 255, 0.45); /* Less dimmer text */
+    background: rgba(0, 0, 0, 0.5);
+    /* Less dimmer background */
+    border: 1px solid rgba(180, 0, 0, 0.4);
+    /* Less dimmer border */
+    color: rgba(255, 255, 255, 0.45);
+    /* Less dimmer text */
     font-family: "Courier New", monospace;
-    font-size: 10px;
+    font-size: 13px;
     letter-spacing: 3px;
     text-transform: uppercase;
-    padding: 7px 20px;
+    padding: 9px 26px;
     cursor: pointer;
     border-radius: 3px;
     backdrop-filter: blur(8px);
@@ -252,7 +292,8 @@ html, body {
     border-color: #ff3e3e;
     background: rgba(180, 0, 0, 0.3);
     opacity: 1 !important;
-    animation: none; /* Stop blinking on hover */
+    animation: none;
+    /* Stop blinking on hover */
 }
 
 /* Folio iframe: needs pointer events when active */

@@ -31,6 +31,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media/
+staticfiles/
 
 # Virtual Environments
 env/
@@ -47,6 +48,7 @@ venv.bak/
 
 # OS files
 .DS_Store
+
 # Large Media Files (>100MB)
 portfolio/static/images/Hand.mp4
 portfolio/static/images/Top2.mp4
@@ -55,3 +57,16 @@ portfolio/static/images/walk.mp4
 portfolio/static/images/Side_1.mp4
 portfolio/static/images/Side_2.mp4
 portfolio/static/images/Side_3.mp4
+
+# Backup / Old / Before-refactor files
+*_old.*
+*_before.*
+home_before.html
+
+# Log and diff files
+*.txt
+diff_*.txt
+
+# Misc scratch files
+files_before_refactor.txt
+list_of_files.txt

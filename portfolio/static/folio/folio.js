@@ -4,11 +4,16 @@
         const site = document.getElementById('site');
         if (!site) return;
         
-        // If rendered inside a resized iframe, innerWidth will already be 1440
-        // and scale evaluates to 1. If rendered standalone, it correctly scales.
+        // If rendered inside a scaled iframe (parent handles scaling), we skip it.
+        // This avoids "double scaling" which breaks coordinates and visibility.
+        if (window.self !== window.top) {
+            site.style.transform = 'scale(1)'; 
+            return;
+        }
+
         const winW = window.innerWidth;
         const winH = window.innerHeight;
-        let scale = Math.min(winW / 1440, winH / 810);
+        let scale = Math.min(winW / 1920, winH / 1080);
         site.style.transform = `scale(${scale})`;
     }
     window.addEventListener('resize', applyFolioScaler);
@@ -163,10 +168,10 @@
 
             vidTransition.addEventListener('ended', afterTransition, { once: true });
 
-            // Fallback: skip after 2s if no video
+            // Fallback: wait for the video to naturally 'ended', with a generous 10s timeout just in case it hangs
             setTimeout(() => {
                 if (state === 'transitioning') afterTransition();
-            }, 2000);
+            }, 10000);
         } else {
             // Fallback immediately if transition video is entirely missing
             currentPage = nextIdx;
@@ -198,7 +203,7 @@
         // Show looping video and fade audio in
         const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
         if (vidInspectEnt) {
-            vidInspectEnt.muted = true;
+            vidInspectEnt.muted = false;
             vidInspectEnt.currentTime = 0;
             vidInspectEnt.volume = 0;
             showVideo(vidInspectEnt);
@@ -304,7 +309,7 @@
         }
         // Always ensure the PDF is loaded when opening
         if (cvFrame) {
-             cvFrame.src = "/static/images/UT_CV_MAIN.pdf"; 
+             cvFrame.src = "../images/UT_CV_MAIN.pdf"; 
         }
     }
 

@@ -1,10 +1,32 @@
+// --- Cinematic Viewport Scaler ---
+function applyTermsScaler() {
+    const site = document.querySelector('.site');
+    if (!site) return;
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    let isForced = document.body.classList.contains('force-landscape');
+
+    let availW = isForced ? winH : winW;
+    let availH = isForced ? winW : winH;
+
+    let scale = Math.min(availW / 1920, availH / 1080);
+
+    site.style.transform = isForced
+        ? `translate(-50%, -50%) rotate(90deg) scale(${scale})`
+        : `translate(-50%, -50%) scale(${scale})`;
+}
+window.addEventListener('resize', applyTermsScaler);
+window.addEventListener('orientationchange', () => setTimeout(applyTermsScaler, 100));
+
 document.addEventListener('DOMContentLoaded', () => {
+    applyTermsScaler();
     
     // --- 1. Variable Declarations ---
     const bgMusic = document.getElementById('bgMusic');
     const closeBtn = document.getElementById('closeBtn');
     const hoverSound = document.getElementById('hoverSound'); 
-    const clickSound = new Audio("/static/images/Select.mp3"); 
+    const clickSound = new Audio("static/images/Select.mp3"); 
     const timecodeEl = document.getElementById('timecode');
     const trigger = document.getElementById('easterEggTrigger');
     const note = document.getElementById('directorNote');
