@@ -19,6 +19,17 @@ function applyTermsScaler() {
 window.addEventListener('resize', applyTermsScaler);
 window.addEventListener('orientationchange', () => setTimeout(applyTermsScaler, 100));
 
+function safeSeek(mediaEl, time = 0) {
+    if (!mediaEl) return;
+    try {
+        if (Math.abs(mediaEl.currentTime - time) > 0.1) {
+            mediaEl.currentTime = time;
+        }
+    } catch (e) {
+        console.warn("Failed to seek media element:", e);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     applyTermsScaler();
     
@@ -26,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgMusic = document.getElementById('bgMusic');
     const closeBtn = document.getElementById('closeBtn');
     const hoverSound = document.getElementById('hoverSound'); 
-    const clickSound = new Audio("static/images/Select.mp3"); 
+    const clickSound = new Audio("/static/images/Select.mp3"); 
     const timecodeEl = document.getElementById('timecode');
     const trigger = document.getElementById('easterEggTrigger');
     const note = document.getElementById('directorNote');
@@ -52,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Stop background music
             if (bgMusic) {
                 bgMusic.pause();
-                bgMusic.currentTime = 0;
+                safeSeek(bgMusic, 0);
             }
 
             // Play UI click sound
-            clickSound.currentTime = 0;
+            safeSeek(clickSound, 0);
             clickSound.play().catch(e => console.log("Audio blocked."));
             
             // Logic to handle closing the tab or redirecting
@@ -68,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 100);
-            }, 300);
+            }, 500);
         });
     }
 
@@ -76,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hoverSound) {
         hoverTargets.forEach(target => {
             target.addEventListener('mouseenter', () => {
-                hoverSound.currentTime = 0; 
+                safeSeek(hoverSound, 0); 
                 hoverSound.play().catch(e => console.log("Audio blocked."));
             });
         });
@@ -85,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 5. Click Sound Logic for all links ---
     allLinks.forEach(link => {
         link.addEventListener('click', () => {
-            clickSound.currentTime = 0;
+            safeSeek(clickSound, 0);
             clickSound.play().catch(e => console.log("Audio blocked."));
         });
     });

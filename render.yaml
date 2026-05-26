@@ -3,7 +3,7 @@ services:
     name: portfolio
     runtime: python
     plan: free
-    buildCommand: "./build.sh"
+    buildCommand: "pip install -r requirements.txt && python portfolio/manage.py collectstatic --noinput && python portfolio/manage.py migrate"
     startCommand: "gunicorn --chdir portfolio portfolio.wsgi:application"
     envVars:
       - key: SECRET_KEY

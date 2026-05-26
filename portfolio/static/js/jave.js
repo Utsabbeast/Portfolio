@@ -19,10 +19,31 @@ function applyScaler() {
 window.addEventListener('resize', applyScaler);
 window.addEventListener('orientationchange', () => setTimeout(applyScaler, 100));
 
+function safeSeek(mediaEl, time = 0) {
+    if (!mediaEl) return;
+    try {
+        if (Math.abs(mediaEl.currentTime - time) > 0.1) {
+            mediaEl.currentTime = time;
+        }
+    } catch (e) {
+        console.warn("Failed to seek media element:", e);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     applyScaler();
 
-    const clickSound = new Audio("static/images/Select.mp3");
+    // Explicitly restore iframe sources to prevent browsers from reloading them as "about:blank" from session history
+    const shuriIframe = document.getElementById("shuri-iframe");
+    if (shuriIframe) {
+        shuriIframe.src = "/static/Shuri/Shuri.html?v=9";
+    }
+    const folioIframe = document.getElementById("folio-iframe");
+    if (folioIframe) {
+        folioIframe.src = "about:blank";
+    }
+
+    const clickSound = new Audio("/static/images/Select.mp3");
     clickSound.volume = 0.4;
 
     const steps = Array.from(document.querySelectorAll(".notebook-checkbox"));
@@ -50,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (readLink) {
             readLink.addEventListener("click", (e) => {
-                clickSound.currentTime = 0;
+                safeSeek(clickSound, 0);
                 clickSound.play().catch(() => { });
             });
         }
@@ -58,12 +79,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const onInteraction = (e) => {
             if (e.target.classList.contains('inline-terms-link')) return;
 
-            clickSound.currentTime = 0;
+            safeSeek(clickSound, 0);
             clickSound.play().catch(() => { });
 
-            if (action === "sound" && bgRain) {
-                bgRain.volume = 0.5;
-                bgRain.play().catch(() => { });
+            if (action === "sound") {
+                localStorage.setItem('soundAllowed', 'true');
+                if (bgRain) {
+                    bgRain.volume = 0.5;
+                    bgRain.play().catch(() => { });
+                }
             }
             if (action === "fullscreen") {
                 document.documentElement.requestFullscreen?.().then(() => {
@@ -150,11 +174,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (item.tagName.toLowerCase() === "iframe" || item.dataset.type === "iframe") {
             if (item.id === "shuri-iframe") {
-                item.src = item.getAttribute("data-src") || item.src || "static/Shuri/Shuri.html";
                 let shuriPing;
-                item.onload = () => {
-                    if (isCinemaInterrupted || skipFolioActive) return;
-                    console.log("Shuri iframe loaded, starting ping...");
+                let shuriAdvanced = false;
+
+                const handleShuriComplete = (e) => {
+                    if (e.data === "shuriComplete") {
+                        console.log("Shuri completed naturally, advancing...");
+                        advanceFromShuri();
+                    }
+                };
+
+                const advanceFromShuri = () => {
+                    if (shuriAdvanced || isCinemaInterrupted || skipFolioActive) return;
+                    shuriAdvanced = true;
+                    window.removeEventListener("message", handleShuriComplete);
+                    if (shuriPing) clearInterval(shuriPing);
+                    if (cinemaTimer) clearTimeout(cinemaTimer);
+                    
+                    const oldItem = item;
+                    oldItem.classList.remove("show");
+
+                    // Delay playing the next item (vid-hand) until the shuri iframe has fully faded out (1.5s)
+                    setTimeout(() => {
+                        if (isCinemaInterrupted || skipFolioActive) return;
+                        currentItemIndex++;
+                        playNext();
+                    }, 1500);
+
+                    cinemaTimer = setTimeout(() => {
+                        oldItem.style.display = "none";
+                        oldItem.src = "about:blank"; // Unload Shuri iframe to release memory
+                    }, 1500);
+                };
+
+                window.addEventListener("message", handleShuriComplete);
+
+                const startPinging = () => {
+                    if (isCinemaInterrupted || skipFolioActive || shuriAdvanced) return;
+                    console.log("Shuri iframe loaded or starting, beginning ping...");
 
                     // Respond to acknowledgement
                     const handleAck = (e) => {
@@ -167,27 +224,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.addEventListener("message", handleAck);
 
                     shuriPing = setInterval(() => {
-                        if (isCinemaInterrupted || skipFolioActive) {
+                        if (isCinemaInterrupted || skipFolioActive || shuriAdvanced) {
                             clearInterval(shuriPing);
                             return;
                         }
                         console.log("Pinging Shuri...");
-                        item.contentWindow.postMessage("startShuri", "*");
+                        if (item.contentWindow) {
+                            item.contentWindow.postMessage("startShuri", "*");
+                        }
                     }, 500);
                 };
+
+                // Wait for the iframe fade-in transition (1.5s) to complete before starting Shuri intro animations
+                setTimeout(() => {
+                    startPinging();
+                }, 1500);
+
                 cinemaTimer = setTimeout(() => {
-                    if (isCinemaInterrupted || skipFolioActive) return;
-                    item.classList.remove("show");
-                    cinemaTimer = setTimeout(() => {
-                        if (isCinemaInterrupted || skipFolioActive) return;
-                        item.style.display = "none";
-                        currentItemIndex++;
-                        playNext();
-                    }, 1500); // 1.5s fade out
-                }, 16000);
+                    advanceFromShuri();
+                }, 30000);
 
             } else if (item.id === "folio-iframe") {
-                item.src = item.getAttribute("data-src") || item.src;
+                const baseSrc = item.getAttribute("data-src") || item.src || "/static/folio/folio.html";
+                item.src = baseSrc.split('?')[0] + "?t=" + Date.now();
                 item.onload = () => {
                     if (item.contentWindow) {
                         item.focus();
@@ -219,29 +278,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 150);
             }
 
-            item.currentTime = 0;
+            safeSeek(item, 0);
             item.play().catch(e => console.error("Video play error:", e));
 
             const enterBtn = document.getElementById("video-enter-btn");
             let enterShown = false;
             let keydownHandler = null;
+            let transitioningNext = false;
+            let lastTime = 0;
 
             const onTimeUpdate = () => {
-                if (isCinemaInterrupted || skipFolioActive) {
+                if (isCinemaInterrupted || skipFolioActive || transitioningNext) {
                     item.removeEventListener("timeupdate", onTimeUpdate);
                     return;
                 }
 
-                // Only show ENTER button for looping videos (Hand.mp4 has loop attr)
-                if (item.loop && !enterShown && item.currentTime >= item.duration - 0.2 && item.duration > 0) {
+                let looped = false;
+                if (item.currentTime < lastTime && lastTime > 0) {
+                    looped = true;
+                }
+                lastTime = item.currentTime;
+
+                // Only show ENTER button for looping videos (Hand has loop attr)
+                if (item.loop && !enterShown && item.duration > 0 && (item.currentTime >= item.duration - 0.4 || looped)) {
                     enterShown = true;
                     if (enterBtn) {
                         enterBtn.classList.add("show");
 
                         const proceedNext = () => {
+                            if (transitioningNext) return;
+                            transitioningNext = true;
+
                             const select2 = document.getElementById("select2Sound");
                             if (select2) {
-                                select2.currentTime = 0;
+                                safeSeek(select2, 0);
                                 select2.play().catch(() => { });
                             }
                             enterBtn.classList.remove("show");
@@ -249,14 +319,15 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (keydownHandler) document.removeEventListener("keydown", keydownHandler);
                             item.removeEventListener("timeupdate", onTimeUpdate);
 
-                            item.classList.remove("show");
+                            const oldItem = item;
+                            oldItem.classList.remove("show");
+
+                            currentItemIndex++;
+                            playNext();
 
                             cinemaTimer = setTimeout(() => {
-                                if (isCinemaInterrupted || skipFolioActive) return;
-                                item.style.display = "none";
-                                item.pause();
-                                currentItemIndex++;
-                                playNext();
+                                oldItem.style.display = "none";
+                                oldItem.pause();
                             }, 1500);
                         };
 
@@ -270,14 +341,18 @@ document.addEventListener("DOMContentLoaded", () => {
                         };
                         document.addEventListener("keydown", keydownHandler);
                     } else {
+                        transitioningNext = true;
                         item.removeEventListener("timeupdate", onTimeUpdate);
-                        item.classList.remove("show");
+                        
+                        const oldItem = item;
+                        oldItem.classList.remove("show");
+
+                        currentItemIndex++;
+                        playNext();
+
                         cinemaTimer = setTimeout(() => {
-                            if (isCinemaInterrupted || skipFolioActive) return;
-                            item.style.display = "none";
-                            item.pause();
-                            currentItemIndex++;
-                            playNext();
+                            oldItem.style.display = "none";
+                            oldItem.pause();
                         }, 1500);
                     }
                 }
@@ -285,25 +360,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
             item.addEventListener("timeupdate", onTimeUpdate);
 
-            // For non-first videos (walk.mp4 etc): auto-advance on end
+            // For non-first videos (walk etc): auto-advance on end
             item.onended = () => {
                 if (item.loop) {
-                    // Hand.mp4 (has loop attr): loop until ENTER pressed
-                    if (!enterShown) {
-                        item.currentTime = 0;
+                    // Hand (has loop attr): loop until ENTER pressed
+                    if (!enterShown && !transitioningNext && !isCinemaInterrupted && !skipFolioActive) {
+                        safeSeek(item, 0);
                         item.play().catch(() => { });
                     }
                 } else {
                     // All other videos: auto-advance
-                    if (isCinemaInterrupted || skipFolioActive) return;
+                    if (isCinemaInterrupted || skipFolioActive || transitioningNext) return;
+                    transitioningNext = true;
                     item.removeEventListener("timeupdate", onTimeUpdate);
-                    item.classList.remove("show");
+                    
+                    const oldItem = item;
+                    oldItem.classList.remove("show");
+
+                    currentItemIndex++;
+                    playNext();
+
                     cinemaTimer = setTimeout(() => {
-                        if (isCinemaInterrupted || skipFolioActive) return;
-                        item.style.display = "none";
-                        item.pause();
-                        currentItemIndex++;
-                        playNext();
+                        oldItem.style.display = "none";
+                        oldItem.pause();
                     }, 1500);
                 }
             };
@@ -333,7 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // ── Stop all sounds ──────────────────────────────
         // 1. Rain audio
-        if (bgRain) { bgRain.pause(); bgRain.currentTime = 0; bgRain.style.opacity = "0"; }
+        if (bgRain) { bgRain.pause(); safeSeek(bgRain, 0); bgRain.style.opacity = "0"; }
 
         // 2. All video elements (pause + reset)
         items.forEach(el => {
@@ -363,7 +442,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const folio = items[folioIndex];
         folio.style.display = "block";
         folio.classList.add("show");
-        folio.src = folio.getAttribute("data-src") || folio.src;
+        const baseSrc = folio.getAttribute("data-src") || folio.src || "/static/folio/folio.html";
+        folio.src = baseSrc.split('?')[0] + "?t=" + Date.now();
         folio.onload = () => {
             if (folio.contentWindow) {
                 folio.focus();

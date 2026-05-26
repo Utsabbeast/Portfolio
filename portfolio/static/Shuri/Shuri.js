@@ -47,19 +47,41 @@ function thunderStrike() {
 
 // --- AUDIO LOGIC ---
 
-// Fixed path: Shuri.js is in static/Shuri/, audio is in static/images/
-const slashAudio = new Audio("../images/sword-slash.mp3");
-const glitchAudio = new Audio("../images/glitch-sound.mp3");
+// Absolute paths are required for Django production (Render) to find assets reliably
+const slashAudio = new Audio("/static/images/sword-slash.mp3");
+const glitchAudio = new Audio("/static/images/glitch-sound.mp3");
 
 slashAudio.volume = 1.0;
 glitchAudio.volume = 0.8;
 
+function safeSeek(mediaEl, time = 0) {
+    if (!mediaEl) return;
+    try {
+        if (Math.abs(mediaEl.currentTime - time) > 0.1) {
+            mediaEl.currentTime = time;
+        }
+    } catch (e) {
+        console.warn("Failed to seek media element:", e);
+    }
+}
+
+function isSoundAllowed() {
+    try {
+        return localStorage.getItem('soundAllowed') === 'true';
+    } catch (e) {
+        console.warn("Storage access restricted. Defaulting sound to true.", e);
+        return true;
+    }
+}
+
 function playSlashSound() {
-    slashAudio.currentTime = 0;
+    if (!isSoundAllowed()) return;
+
+    safeSeek(slashAudio, 0);
     slashAudio.play().catch(e => console.log("Slash sound blocked"));
 
     setTimeout(() => {
-        glitchAudio.currentTime = 0;
+        safeSeek(glitchAudio, 0);
         glitchAudio.play().catch(e => console.log("Glitch sound blocked"));
     }, 500);
 }
@@ -72,6 +94,8 @@ createEmbers();
 function startShuriIntro() {
     shurikenLogo.classList.remove('hidden');
     shurikenLogo.classList.remove('fade-out');
+    if (eclipseGlow) eclipseGlow.classList.remove('fade-out');
+    if (shurikenFrame) shurikenFrame.classList.remove('fade-out');
     console.log("Shuri Sequence Started");
 
     // 1. Play first slash sound (Shuriken)
@@ -95,6 +119,18 @@ function startShuriIntro() {
         // Slash sound for 'Presents' (matches 1.2s delay in CSS)
         setTimeout(playSlashSound, 1200);
     }, 10000);
+
+    // 5. Fade out 'Presents' logo
+    setTimeout(() => {
+        presentsLogo.classList.add('fade-out');
+    }, 15000);
+
+    // 6. Notify parent that Shuri intro is complete
+    setTimeout(() => {
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage("shuriComplete", "*");
+        }
+    }, 16500);
 }
 
 // Listen for message from parent (when embedded in iframe)
@@ -103,7 +139,9 @@ window.addEventListener("message", (event) => {
     if (event.data === "startShuri" && !shuriStarted) {
         shuriStarted = true;
         // Acknowledge so parent stops pinging
-        if (event.source) event.source.postMessage("shuriReady", "*");
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage("shuriReady", "*");
+        }
         startShuriIntro();
     }
 });

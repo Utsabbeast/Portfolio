@@ -178,17 +178,16 @@ body {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 2s ease;
+    transition: opacity 1.5s ease;
     pointer-events: none;
     display: none;
     /* Hidden by default */
-    z-index: -1;
-    /* Start behind */
+    z-index: 1;
 }
 
 .cinema-item.show {
     display: block !important;
-    z-index: 9999 !important;
+    z-index: 2 !important;
     /* Bring to the very front */
     opacity: 1 !important;
     pointer-events: auto !important;
@@ -215,7 +214,7 @@ body {
     border-radius: 3px;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    filter: url(#handDrawnNoise);
+    filter: url(#handDrawnNoise) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     transition: all 0.3s ease;
     animation: blinkVideoEnter 2s infinite ease-in-out;
 }
@@ -225,16 +224,12 @@ body {
 }
 
 @keyframes blinkVideoEnter {
-
     0%,
     100% {
         opacity: 1;
-        filter: url(#handDrawnNoise) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
     }
-
     50% {
         opacity: 0.3;
-        filter: url(#handDrawnNoise) drop-shadow(0 0 1px rgba(255, 255, 255, 0.1));
     }
 }
 

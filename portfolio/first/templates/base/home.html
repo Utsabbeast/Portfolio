@@ -6,8 +6,9 @@
     <meta charset="UTF-8">
     <title>Movie Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/style.css?v=2">
-    <link rel="icon" type="image/x-icon" href="static/images/Shuriken icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
+    <link rel="icon" type="image/x-icon" href="/static/images/Shuriken icon.ico">
 </head>
 
 <body>
@@ -28,12 +29,12 @@
 
                     <label class="notebook-checkbox" data-action="terms">
                         <div class="bgTerms">
-                            <img src="static/images/TermsBG.jpg" alt="bg" class="terms-bg">
+                            <img src="/static/images/TermsBG.jpg" alt="bg" class="terms-bg">
                         </div>
                         <input type="checkbox">
                         <span class="text">
                             <span class="text-content">
-                                Accept Terms & Conditions
+                                Accept Terms &amp; Conditions
                                 <span class="terms-sub">
                                     <a href="terms/" target="_blank" class="inline-terms-link">READ</a>
                                 </span>
@@ -43,7 +44,7 @@
 
                     <label class="notebook-checkbox" data-action="sound">
                         <div class="bgSOUND">
-                            <img src="static/images/Sound BG.jpg" alt="bg" class="terms-bg">
+                            <img src="/static/images/Sound BG.jpg" alt="bg" class="terms-bg">
                         </div>
                         <input type="checkbox">
                         <span class="text"><span class="text-content">Allow Sound</span></span>
@@ -51,7 +52,7 @@
 
                     <label class="notebook-checkbox" data-action="fullscreen">
                         <div class="bgFULL">
-                            <img src="static/images/Full BG.jpg" alt="bg" class="terms-bg">
+                            <img src="/static/images/Full BG.jpg" alt="bg" class="terms-bg">
                         </div>
                         <input type="checkbox">
                         <span class="text"><span class="text-content">Enable Fullscreen</span></span>
@@ -70,25 +71,27 @@
                 ENTER
             </button>
 
-            <audio id="bgRain" src="static/images/rain.mp3" loop></audio>
-            <audio id="select2Sound" src="static/images/Select_2.mp3" preload="auto"></audio>
+            <audio id="bgRain" src="/static/images/rain.mp3" loop preload="metadata"></audio>
+            <audio id="select2Sound" src="/static/images/Select_2.mp3" preload="metadata"></audio>
 
             <div id="cinemaStage" class="cinema-stage hidden">
-                <iframe id="shuri-iframe" src="static/Shuri/Shuri.html" class="cinema-item" data-type="iframe"
+                <iframe id="shuri-iframe" src="/static/Shuri/Shuri.html" class="cinema-item" data-type="iframe"
                     allow="autoplay; fullscreen"
                     style="display:none; background-color: black; border: none; outline: none; width: 100%; height: 100%;">
                 </iframe>
 
-                <video id="vid-hand" class="cinema-item" data-type="video" preload="auto" playsinline loop>
-                    <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1777709456/Hand_pqpc8z.mp4" type="video/mp4">
+                <video id="vid-hand" class="cinema-item" data-type="video" preload="none" playsinline loop>
+                    <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603545/Hand_pqpc8z.webm"
+                        type="video/webm">
                 </video>
 
-                <video id="vid-walk" class="cinema-item" data-type="video" preload="auto" playsinline>
-                    <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1777625487/walk_zzaatv.mp4" type="video/mp4">
+                <video id="vid-walk" class="cinema-item" data-type="video" preload="none" playsinline>
+                    <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603698/walk_zzaatv.webm"
+                        type="video/webm">
                 </video>
 
-                <iframe id="folio-iframe" data-src="static/folio/folio.html" src="about:blank"
-                    class="cinema-item" data-type="iframe" allow="autoplay; fullscreen"
+                <iframe id="folio-iframe" data-src="/static/folio/folio.html?v=6" src="about:blank" class="cinema-item"
+                    data-type="iframe" allow="autoplay; fullscreen"
                     style="display:none; background-color: black; border: none; outline: none; width: 100%; height: 100%;">
                 </iframe>
             </div>
@@ -96,7 +99,7 @@
         </div>
     </div>
 
-    <script src="static/js/jave.js?v=2"></script>
+    <script src="/static/js/jave.js?v=7"></script>
 </body>
 
 </html>

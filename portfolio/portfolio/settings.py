@@ -128,18 +128,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL ='/images/'
 
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR,"static") 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
 ]
 
+# STATIC_ROOT is only used if you run collectstatic (not required locally or on Render).
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Replace the default storage with WhiteNoise's storage
-# which handles compression and caching for us.
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Configure WhiteNoise storage for optimized compression and caching in production.
+# In Django 4.2+, we configure this via the STORAGES setting.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Manifest strict is False to prevent crashes if a static file referenced in CSS is missing.
 WHITENOISE_MANIFEST_STRICT = False
+
+# Use finders and autorefresh ONLY during local development (when DEBUG is True).
+# In production (DEBUG is False), WhiteNoise serves compiled, cached files from STATIC_ROOT.
+WHITENOISE_USE_FINDERS = DEBUG
+WHITENOISE_AUTOREFRESH = DEBUG
+
+# Ensure STATIC_ROOT exists for Django's production check
+if not os.path.exists(STATIC_ROOT):
+    os.makedirs(STATIC_ROOT)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

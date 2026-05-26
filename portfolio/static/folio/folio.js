@@ -1,13 +1,24 @@
 (function () {
+    function safeSeek(mediaEl, time = 0) {
+        if (!mediaEl) return;
+        try {
+            if (Math.abs(mediaEl.currentTime - time) > 0.1) {
+                mediaEl.currentTime = time;
+            }
+        } catch (e) {
+            console.warn("Failed to seek media element:", e);
+        }
+    }
+
     /* --- Cinematic Viewport Scaler (for standalone rendering) --- */
     function applyFolioScaler() {
         const site = document.getElementById('site');
         if (!site) return;
-        
+
         // If rendered inside a scaled iframe (parent handles scaling), we skip it.
         // This avoids "double scaling" which breaks coordinates and visibility.
         if (window.self !== window.top) {
-            site.style.transform = 'scale(1)'; 
+            site.style.transform = 'scale(1)';
             return;
         }
 
@@ -43,19 +54,64 @@
     ];
 
     /* ─────────── ELEMENTS ─────────── */
-    const site           = document.getElementById('site');
-    const paperCard      = document.getElementById('paper-card');
-    const pageLabel      = document.getElementById('page-label');
-    const hintLeft       = document.getElementById('hint-left');
-    const hintRight      = document.getElementById('hint-right');
-    const dots           = document.querySelectorAll('.dot');
-    const endNormalBtn   = document.getElementById('end-normal-btn');
-    const cvOverlay    = document.getElementById('cv-popup-overlay');
-    const cvFrame      = document.getElementById('cv-frame');
+    const site = document.getElementById('site');
+    const paperCard = document.getElementById('paper-card');
+    const pageLabel = document.getElementById('page-label');
+    const hintLeft = document.getElementById('hint-left');
+    const hintRight = document.getElementById('hint-right');
+    const dots = document.querySelectorAll('.dot');
+    const endNormalBtn = document.getElementById('end-normal-btn');
+    const cvOverlay = document.getElementById('cv-popup-overlay');
+    const cvFrame = document.getElementById('cv-frame');
 
     /* ─────────── STATE ─────────── */
-    let state       = 'normal';
+    let state = 'normal';
     let currentPage = 0;  // 0, 1, 2
+    let hasInteracted = false;
+
+    function isSoundAllowed() {
+        try {
+            return localStorage.getItem('soundAllowed') === 'true';
+        } catch (e) {
+            console.warn("Storage access restricted. Defaulting sound to true.", e);
+            return true;
+        }
+    }
+
+    function playBgVideoAudio(pageIdx) {
+        if (!isSoundAllowed()) return;
+        const vid = getBgVideo(pageIdx);
+        if (!vid) return;
+
+        if (!hasInteracted) {
+            vid.muted = true;
+            return;
+        }
+
+        vid.muted = false;
+        vid.volume = 0;
+        fadeInAudio(vid, 0.5, 1000); // Fade in to 0.5 volume over 1s
+    }
+
+    function stopBgVideoAudio(pageIdx) {
+        const vid = getBgVideo(pageIdx);
+        if (!vid) return;
+
+        fadeOutAudio(vid, 800, () => {
+            vid.muted = true;
+        });
+    }
+
+    function handleFirstInteraction() {
+        if (!hasInteracted) {
+            hasInteracted = true;
+            playBgVideoAudio(currentPage);
+            document.removeEventListener('click', handleFirstInteraction);
+            document.removeEventListener('keydown', handleFirstInteraction);
+        }
+    }
+    document.addEventListener('click', handleFirstInteraction);
+    document.addEventListener('keydown', handleFirstInteraction);
 
     /* ─────────── HELPERS ─────────── */
 
@@ -64,10 +120,18 @@
     }
 
     function showVideo(vid) {
+        if (!vid) return;
         vid.classList.add('visible');
+        if (vid.tagName && vid.tagName.toLowerCase() === 'video') {
+            vid.play().catch(() => {});
+        }
     }
     function hideVideo(vid) {
+        if (!vid) return;
         vid.classList.remove('visible');
+        if (vid.tagName && vid.tagName.toLowerCase() === 'video') {
+            vid.pause();
+        }
     }
 
     // Load page content into paperCard and reset scroll
@@ -114,10 +178,10 @@
         updatePageMeta(0);
         const v0 = getBgVideo(0);
         if (v0) {
-            v0.muted = true;
+            v0.muted = true; // Always mute background atmosphere videos to guarantee autoplay
             showVideo(v0);
-            v0.play().catch(e => console.warn("Initial autoplay blocked:", e));
         }
+        playBgVideoAudio(0);
         updateArrows();
         updateEndButton();
     }
@@ -135,16 +199,20 @@
         updateArrows();
         updateEndButton();
 
+        stopBgVideoAudio(currentPage);
         hideVideo(getBgVideo(currentPage));
 
         const transitionId = `vid-transition-${currentPage}-${nextIdx}`;
         const vidTransition = document.getElementById(transitionId);
 
         if (vidTransition) {
-            vidTransition.currentTime = 0;
-            vidTransition.muted = true;
+            safeSeek(vidTransition, 0);
+            vidTransition.muted = true; // Always mute transition videos to guarantee autoplay
             showVideo(vidTransition);
-            vidTransition.play().catch(() => {});
+            vidTransition.play().catch((err) => {
+                console.warn("Transition play failed, fallback immediately:", err);
+                afterTransition();
+            });
 
             function afterTransition() {
                 vidTransition.removeEventListener('ended', afterTransition);
@@ -155,10 +223,10 @@
                 loadPanels(currentPage);
                 const vNext = getBgVideo(currentPage);
                 if (vNext) {
-                    vNext.muted = true;
+                    vNext.muted = true; // Always mute background atmosphere videos to guarantee autoplay
                     showVideo(vNext);
-                    vNext.play().catch(() => {});
                 }
+                playBgVideoAudio(currentPage);
 
                 site.classList.remove('transitioning');
                 state = 'normal';
@@ -174,10 +242,12 @@
             }, 10000);
         } else {
             // Fallback immediately if transition video is entirely missing
+            stopBgVideoAudio(currentPage);
             currentPage = nextIdx;
             updatePageMeta(currentPage);
             loadPanels(currentPage);
             showVideo(getBgVideo(currentPage));
+            playBgVideoAudio(currentPage);
 
             site.classList.remove('transitioning');
             state = 'normal';
@@ -191,24 +261,41 @@
         if (state !== 'normal') return;
         playSelect();
 
+        const soundAllowed = isSoundAllowed();
+
         state = 'inspect';
         updateArrows();
         updateEndButton();
         updateVerb();
 
+        // Pause background video
+        const vBg = getBgVideo(currentPage);
+        if (vBg) vBg.pause();
+        stopBgVideoAudio(currentPage);
+
         // Show full-screen image (bottom layer)
         const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
-        if (imgEnt) showVideo(imgEnt);
+        if (imgEnt) {
+            if (!imgEnt.style.backgroundImage) {
+                const src = imgEnt.getAttribute('data-src');
+                if (src) {
+                    imgEnt.style.backgroundImage = `url('${src}')`;
+                }
+            }
+            showVideo(imgEnt);
+        }
 
         // Show looping video and fade audio in
         const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
         if (vidInspectEnt) {
-            vidInspectEnt.muted = false;
-            vidInspectEnt.currentTime = 0;
+            vidInspectEnt.muted = !soundAllowed;
+            safeSeek(vidInspectEnt, 0);
             vidInspectEnt.volume = 0;
             showVideo(vidInspectEnt);
-            vidInspectEnt.play().catch(() => {});
-            fadeInAudio(vidInspectEnt, 1.0, 1000);
+            vidInspectEnt.play().catch(() => { });
+            if (soundAllowed) {
+                fadeInAudio(vidInspectEnt, 1.0, 1000);
+            }
         }
 
         site.classList.add('inspect-active');
@@ -231,6 +318,11 @@
 
         const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
         if (imgEnt) hideVideo(imgEnt);
+
+        // Resume background video
+        const vBg = getBgVideo(currentPage);
+        if (vBg) vBg.play().catch(() => {});
+        playBgVideoAudio(currentPage);
 
         state = 'normal';
         updateArrows();
@@ -283,6 +375,7 @@
             v.pause();
             v.classList.remove('visible');
         });
+        stopBgVideoAudio(currentPage);
 
         playSelect();
 
@@ -302,20 +395,22 @@
     }
 
     /* ─────────── CV POPUP ─────────── */
-    window.openCV = function() {
+    window.openCV = function () {
         playSelect2();
         if (cvOverlay) {
             cvOverlay.style.display = 'flex';
         }
         // Always ensure the PDF is loaded when opening
         if (cvFrame) {
-             cvFrame.src = "../images/UT_CV_MAIN.pdf"; 
+            cvFrame.src = "/static/images/UT_CV_MAIN.pdf";
         }
     }
 
-    window.closeCV = function() {
-        if (!cvOverlay) return;
-        cvOverlay.style.display = 'none';
+    window.closeCV = function () {
+        playSelect();
+        if (cvOverlay) {
+            cvOverlay.style.display = 'none';
+        }
     }
 
     /* ─────────── KEYBOARD ─────────── */
@@ -323,15 +418,15 @@
     const select2Sound = document.getElementById('select2Sound');
     function playSelect() {
         if (selectSound) {
-            selectSound.currentTime = 0;
-            selectSound.play().catch(() => {});
+            safeSeek(selectSound, 0);
+            selectSound.play().catch(() => { });
         }
     }
-    
+
     function playSelect2() {
         if (select2Sound) {
-            select2Sound.currentTime = 0;
-            select2Sound.play().catch(() => {});
+            safeSeek(select2Sound, 0);
+            select2Sound.play().catch(() => { });
         }
     }
 
@@ -344,8 +439,8 @@
 
         switch (e.key) {
             case 'Enter':
-                if (state === 'normal')  { enterInspect(); return; }
-                if (state === 'inspect') { exitInspect();  return; }
+                if (state === 'normal') { enterInspect(); return; }
+                if (state === 'inspect') { exitInspect(); return; }
                 break;
 
             case 'ArrowRight':
@@ -368,12 +463,12 @@
 
     document.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
-    }, {passive: true});
+    }, { passive: true });
 
     document.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
-    }, {passive: true});
+    }, { passive: true });
 
     function handleSwipe() {
         if (state !== 'normal') return;
@@ -427,7 +522,7 @@
     if (inspectTrigger) {
         inspectTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (state === 'normal')  { enterInspect(); }
+            if (state === 'normal') { enterInspect(); }
             else if (state === 'inspect') { exitInspect(); }
         });
     }
