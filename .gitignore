@@ -53,6 +53,7 @@ venv.bak/
 portfolio/static/images/*.mp4
 portfolio/static/images/*.mp3
 portfolio/static/images/*.wav
+portfolio/static/images/*.webm
 
 # Backup / Old / Before-refactor files
 *_old.*
