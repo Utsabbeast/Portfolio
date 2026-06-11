@@ -66,3 +66,7 @@ diff_*.txt
 # Misc scratch files
 files_before_refactor.txt
 list_of_files.txt
+
+# Temp/CP files
+cp.txt
+**/cp.txt
