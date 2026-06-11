@@ -268,7 +268,6 @@
             }, 10000);
         } else {
             // Fallback immediately if transition video is entirely missing
-            stopBgVideoAudio(currentPage);
 
             if (vBg) {
                 vBg.src = VIDEO_SOURCES.bg[nextIdx];
@@ -426,7 +425,6 @@
 
         // Resume background video
         if (vBg) vBg.play().catch(() => { });
-        playBgVideoAudio(currentPage);
 
         state = 'normal';
         updateArrows();
@@ -479,7 +477,6 @@
             v.pause();
             v.classList.remove('visible');
         });
-        stopBgVideoAudio(currentPage);
 
         playSelect();
 
