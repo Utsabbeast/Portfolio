@@ -32,22 +32,48 @@
     applyFolioScaler(); // Initial scale on load
 
     /* ─────────── CONFIG ─────────── */
+    const VIDEO_SOURCES = {
+        bg: [
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610063/SideMain1_ijqmdu.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610062/SideMain2_pr7cyh.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610062/SideMain3_plnu0i.webm"
+        ],
+        inspect: [
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603333/Top1_mwmsly.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603762/Top2_wvttwx.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603519/Top3_bhrqvp.webm"
+        ],
+        inspect_enter: [
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781185826/Enter_1_fdvmw0.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781185827/Enter_2_aq9sfl.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781185827/Enter_3_yy1trl.webm"
+        ],
+        inspect_exit: [
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781186834/Enter_1R_kr5wg6.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781186879/Enter_2R_hxx1cd.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1781186876/Enter_3R_ju957c.webm"
+        ],
+        transition: {
+            "0-1": "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778604414/Page_1_2_gxhyz6.webm",
+            "1-2": "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603951/Page_2_3_sbtw0v.webm",
+            "1-0": "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778604335/Page_2_1_twowyt.webm",
+            "2-1": "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603782/Page_3_2mp4_q6u9fg.webm"
+        }
+    };
+
     const PAGE_DATA = [
         {
             id: 'p1',
-            bgVideoId: 'vid-p1',
             templateId: 'tpl-p1',
             label: 'PAGE 01 — PROFILE',
         },
         {
             id: 'p2',
-            bgVideoId: 'vid-p2',
             templateId: 'tpl-p2',
             label: 'PAGE 02 — OPERATIONS',
         },
         {
             id: 'p3',
-            bgVideoId: 'vid-p3',
             templateId: 'tpl-p3',
             label: 'PAGE 03 — CREDENTIALS',
         },
@@ -67,7 +93,7 @@
     /* ─────────── STATE ─────────── */
     let state = 'normal';
     let currentPage = 0;  // 0, 1, 2
-    let hasInteracted = false;
+    let hasInteracted = isSoundAllowed();
 
     function isSoundAllowed() {
         try {
@@ -78,34 +104,17 @@
         }
     }
 
-    function playBgVideoAudio(pageIdx) {
-        if (!isSoundAllowed()) return;
-        const vid = getBgVideo(pageIdx);
-        if (!vid) return;
 
-        if (!hasInteracted) {
-            vid.muted = true;
-            return;
-        }
-
-        vid.muted = false;
-        vid.volume = 0;
-        fadeInAudio(vid, 0.5, 1000); // Fade in to 0.5 volume over 1s
-    }
-
-    function stopBgVideoAudio(pageIdx) {
-        const vid = getBgVideo(pageIdx);
-        if (!vid) return;
-
-        fadeOutAudio(vid, 800, () => {
-            vid.muted = true;
-        });
-    }
 
     function handleFirstInteraction() {
         if (!hasInteracted) {
             hasInteracted = true;
-            playBgVideoAudio(currentPage);
+            const vBg = getBgVideo();
+            if (vBg && isSoundAllowed()) {
+                vBg.muted = false;
+                vBg.volume = 1.0;
+                vBg.play().catch(() => {});
+            }
             document.removeEventListener('click', handleFirstInteraction);
             document.removeEventListener('keydown', handleFirstInteraction);
         }
@@ -115,15 +124,15 @@
 
     /* ─────────── HELPERS ─────────── */
 
-    function getBgVideo(pageIdx) {
-        return document.getElementById(PAGE_DATA[pageIdx].bgVideoId);
+    function getBgVideo() {
+        return document.getElementById('vid-bg');
     }
 
     function showVideo(vid) {
         if (!vid) return;
         vid.classList.add('visible');
         if (vid.tagName && vid.tagName.toLowerCase() === 'video') {
-            vid.play().catch(() => {});
+            vid.play().catch(() => { });
         }
     }
     function hideVideo(vid) {
@@ -176,12 +185,14 @@
     function init() {
         loadPanels(0);
         updatePageMeta(0);
-        const v0 = getBgVideo(0);
+        const v0 = getBgVideo();
         if (v0) {
-            v0.muted = true; // Always mute background atmosphere videos to guarantee autoplay
+            v0.src = VIDEO_SOURCES.bg[0];
+            v0.load();
+            v0.muted = !isSoundAllowed();
             showVideo(v0);
+            v0.play().then(() => console.log('v0 play success')).catch((err) => console.error('v0 play error:', err));
         }
-        playBgVideoAudio(0);
         updateArrows();
         updateEndButton();
     }
@@ -199,16 +210,29 @@
         updateArrows();
         updateEndButton();
 
-        stopBgVideoAudio(currentPage);
-        hideVideo(getBgVideo(currentPage));
+        const vBg = getBgVideo();
+        if (vBg) {
+            vBg.pause();
+            hideVideo(vBg);
+        }
 
-        const transitionId = `vid-transition-${currentPage}-${nextIdx}`;
-        const vidTransition = document.getElementById(transitionId);
+        const transitionKey = `${currentPage}-${nextIdx}`;
+        const transitionUrl = VIDEO_SOURCES.transition[transitionKey];
+        const vidTransition = document.getElementById('vid-transition');
 
-        if (vidTransition) {
+        if (vidTransition && transitionUrl) {
+            vidTransition.src = transitionUrl;
+            vidTransition.load();
             safeSeek(vidTransition, 0);
-            vidTransition.muted = true; // Always mute transition videos to guarantee autoplay
+            vidTransition.muted = !isSoundAllowed();
             showVideo(vidTransition);
+
+            // Preload next background video while transition plays
+            if (vBg) {
+                vBg.src = VIDEO_SOURCES.bg[nextIdx];
+                vBg.load();
+            }
+
             vidTransition.play().catch((err) => {
                 console.warn("Transition play failed, fallback immediately:", err);
                 afterTransition();
@@ -217,16 +241,18 @@
             function afterTransition() {
                 vidTransition.removeEventListener('ended', afterTransition);
                 hideVideo(vidTransition);
+                vidTransition.removeAttribute('src');
+                vidTransition.load();
 
                 currentPage = nextIdx;
                 updatePageMeta(currentPage);
                 loadPanels(currentPage);
-                const vNext = getBgVideo(currentPage);
-                if (vNext) {
-                    vNext.muted = true; // Always mute background atmosphere videos to guarantee autoplay
-                    showVideo(vNext);
+
+                if (vBg) {
+                    vBg.muted = !isSoundAllowed();
+                    showVideo(vBg);
+                    vBg.play().then(() => console.log('vBg play success page 2')).catch((err) => console.error('vBg play error page 2:', err));
                 }
-                playBgVideoAudio(currentPage);
 
                 site.classList.remove('transitioning');
                 state = 'normal';
@@ -243,11 +269,21 @@
         } else {
             // Fallback immediately if transition video is entirely missing
             stopBgVideoAudio(currentPage);
+
+            if (vBg) {
+                vBg.src = VIDEO_SOURCES.bg[nextIdx];
+                vBg.load();
+            }
+
             currentPage = nextIdx;
             updatePageMeta(currentPage);
             loadPanels(currentPage);
-            showVideo(getBgVideo(currentPage));
-            playBgVideoAudio(currentPage);
+
+            if (vBg) {
+                vBg.muted = !isSoundAllowed();
+                showVideo(vBg);
+                vBg.play().then(() => console.log('vBg fallback play success page 2')).catch((err) => console.error('vBg fallback play error page 2:', err));
+            }
 
             site.classList.remove('transitioning');
             state = 'normal';
@@ -263,18 +299,50 @@
 
         const soundAllowed = isSoundAllowed();
 
-        state = 'inspect';
+        state = 'inspect_transition';
         updateArrows();
         updateEndButton();
         updateVerb();
 
         // Pause background video
-        const vBg = getBgVideo(currentPage);
+        const vBg = getBgVideo();
         if (vBg) vBg.pause();
-        stopBgVideoAudio(currentPage);
 
-        // Show full-screen image (bottom layer)
         const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
+        const vidInspectEnt = document.getElementById('vid-inspect');
+        const vidInspectTrans = document.getElementById('vid-inspect-transition');
+
+        // Preload looping video
+        if (vidInspectEnt) {
+            vidInspectEnt.src = VIDEO_SOURCES.inspect[currentPage];
+            vidInspectEnt.load();
+        }
+
+        if (vidInspectTrans && VIDEO_SOURCES.inspect_enter[currentPage]) {
+            vidInspectTrans.src = VIDEO_SOURCES.inspect_enter[currentPage];
+            vidInspectTrans.load();
+            vidInspectTrans.muted = !soundAllowed;
+            safeSeek(vidInspectTrans, 0);
+            vidInspectTrans.volume = 1.0;
+            showVideo(vidInspectTrans);
+
+            vidInspectTrans.play().catch(() => {
+                finishEnterInspect(imgEnt, vidInspectEnt, soundAllowed);
+            });
+
+            vidInspectTrans.onended = () => {
+                hideVideo(vidInspectTrans);
+                vidInspectTrans.removeAttribute('src');
+                vidInspectTrans.load();
+                vidInspectTrans.onended = null;
+                finishEnterInspect(imgEnt, vidInspectEnt, soundAllowed);
+            };
+        } else {
+            finishEnterInspect(imgEnt, vidInspectEnt, soundAllowed);
+        }
+    }
+
+    function finishEnterInspect(imgEnt, vidInspectEnt, soundAllowed) {
         if (imgEnt) {
             if (!imgEnt.style.backgroundImage) {
                 const src = imgEnt.getAttribute('data-src');
@@ -285,20 +353,19 @@
             showVideo(imgEnt);
         }
 
-        // Show looping video and fade audio in
-        const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
         if (vidInspectEnt) {
             vidInspectEnt.muted = !soundAllowed;
             safeSeek(vidInspectEnt, 0);
-            vidInspectEnt.volume = 0;
+            vidInspectEnt.volume = 1.0;
             showVideo(vidInspectEnt);
             vidInspectEnt.play().catch(() => { });
-            if (soundAllowed) {
-                fadeInAudio(vidInspectEnt, 1.0, 1000);
-            }
         }
 
         site.classList.add('inspect-active');
+        state = 'inspect';
+        updateArrows();
+        updateEndButton();
+        updateVerb();
     }
 
     /* ─────────── INSPECT → NORMAL (ENTER again) ─────────── */
@@ -306,22 +373,59 @@
         if (state !== 'inspect') return;
         playSelect();
 
+        const soundAllowed = isSoundAllowed();
+
+        state = 'inspect_transition';
+        updateArrows();
+        updateEndButton();
+        updateVerb();
+
         site.classList.remove('inspect-active');
 
-        const vidInspectEnt = document.getElementById(`vid-inspect-entry-${currentPage}`);
+        const vidInspectEnt = document.getElementById('vid-inspect');
         if (vidInspectEnt) {
-            fadeOutAudio(vidInspectEnt, 800, () => {
-                hideVideo(vidInspectEnt);
-                vidInspectEnt.pause();
-            });
+            hideVideo(vidInspectEnt);
+            vidInspectEnt.pause();
+            vidInspectEnt.removeAttribute('src');
+            vidInspectEnt.load();
         }
 
         const imgEnt = document.getElementById(`img-inspect-entry-${currentPage}`);
         if (imgEnt) hideVideo(imgEnt);
 
+        const vidInspectTrans = document.getElementById('vid-inspect-transition');
+        const vBg = getBgVideo();
+
+        if (vidInspectTrans && VIDEO_SOURCES.inspect_exit[currentPage]) {
+            vidInspectTrans.src = VIDEO_SOURCES.inspect_exit[currentPage];
+            vidInspectTrans.load();
+            vidInspectTrans.muted = !soundAllowed;
+            safeSeek(vidInspectTrans, 0);
+            vidInspectTrans.volume = 1.0;
+            showVideo(vidInspectTrans);
+
+            vidInspectTrans.play().catch(() => {
+                finishExitInspect(vBg, vidInspectTrans);
+            });
+
+            vidInspectTrans.onended = () => {
+                finishExitInspect(vBg, vidInspectTrans);
+            };
+        } else {
+            finishExitInspect(vBg, vidInspectTrans);
+        }
+    }
+
+    function finishExitInspect(vBg, vidInspectTrans) {
+        if (vidInspectTrans) {
+            hideVideo(vidInspectTrans);
+            vidInspectTrans.removeAttribute('src');
+            vidInspectTrans.load();
+            vidInspectTrans.onended = null;
+        }
+
         // Resume background video
-        const vBg = getBgVideo(currentPage);
-        if (vBg) vBg.play().catch(() => {});
+        if (vBg) vBg.play().catch(() => { });
         playBgVideoAudio(currentPage);
 
         state = 'normal';

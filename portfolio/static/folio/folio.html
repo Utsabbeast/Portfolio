@@ -26,55 +26,16 @@
             <!-- ===================== FILM GRAIN ===================== -->
             <div class="film-grain"></div>
 
-            <!-- BG VIDEOS — one per page -->
-            <video id="vid-p1" class="vid-layer page-bg" autoplay muted loop playsinline preload="auto">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778610063/SideMain1_ijqmdu.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-p2" class="vid-layer page-bg" muted loop playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778610062/SideMain2_pr7cyh.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-p3" class="vid-layer page-bg" muted loop playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778610062/SideMain3_plnu0i.webm"
-                    type="video/webm">
-            </video>
-
-            <!-- TRANSITION VIDEOS (4 Total) -->
-            <video id="vid-transition-0-1" class="vid-layer transition-vid" playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778604414/Page_1_2_gxhyz6.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-transition-1-2" class="vid-layer transition-vid" playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603951/Page_2_3_sbtw0v.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-transition-1-0" class="vid-layer transition-vid" playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778604335/Page_2_1_twowyt.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-transition-2-1" class="vid-layer transition-vid" playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603782/Page_3_2mp4_q6u9fg.webm"
-                    type="video/webm">
-            </video>
-
-            <!-- INSPECT ENTRY VIDEOS (3 Total) -->
-            <video id="vid-inspect-entry-0" class="vid-layer inspect-vid" loop playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603333/Top1_mwmsly.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-inspect-entry-1" class="vid-layer inspect-vid" loop playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603762/Top2_wvttwx.webm"
-                    type="video/webm">
-            </video>
-            <video id="vid-inspect-entry-2" class="vid-layer inspect-vid" loop playsinline preload="none">
-                <source src="https://res.cloudinary.com/da8mnqeej/video/upload/v1778603519/Top3_bhrqvp.webm"
-                    type="video/webm">
-            </video>
+            <!-- DYNAMIC VIDEOS (3 Total) -->
+            <video id="vid-bg" class="vid-layer page-bg" loop playsinline preload="auto"></video>
+            <video id="vid-transition" class="vid-layer transition-vid" playsinline preload="none"></video>
+            <video id="vid-inspect-transition" class="vid-layer inspect-vid" playsinline preload="none"></video>
+            <video id="vid-inspect" class="vid-layer inspect-vid" loop playsinline preload="none"></video>
 
             <!-- INSPECT ENTRY IMAGES (3 Total) — lazy loaded via JS data-src -->
             <div id="img-inspect-entry-0" class="vid-layer inspect-img" data-src="/static/images/page_first.webp"></div>
-            <div id="img-inspect-entry-1" class="vid-layer inspect-img" data-src="/static/images/page_second.webp"></div>
+            <div id="img-inspect-entry-1" class="vid-layer inspect-img" data-src="/static/images/page_second.webp">
+            </div>
             <div id="img-inspect-entry-2" class="vid-layer inspect-img" data-src="/static/images/page_third.webp"></div>
 
             <!-- DARK GLASS -->
@@ -123,7 +84,8 @@
 
                     <!-- OWN CHANNELS -->
                     <div class="credits-block">
-                        <span class="credits-role"><img src="/static/images/Shuriken_logo.png" class="credits-logo">SHURIKEN
+                        <span class="credits-role"><img src="/static/images/Shuriken_logo.png"
+                                class="credits-logo">SHURIKEN
                             PRODUCTION</span>
                         <span class="credits-name">
                             <a href="https://discord.gg/wgQ2tvzMjR" target="_blank">DISCORD</a>
@@ -216,7 +178,12 @@
                 <!-- ABOUT ME PLACEHOLDER -->
                 <div class="about-me-block">
                     <p class="doc-text">
-                        I am a Computer Science engineering student and digital creator who bridges the gap between clean code and creative visual storytelling. Under the moniker <strong>Shuriken Production</strong>, I animate, edit, and create cinematic content for a growing community. Whether I am building backend architectures with Django, engineering interactive web applications, or analyzing digital forensics, I approach every challenge with the discipline of an NCC cadet and the curiosity of a builder. Welcome to my creative archive.
+                        I am a Computer Science engineering student and digital creator who bridges the gap between
+                        clean code and creative visual storytelling. Under the moniker <strong>Shuriken
+                            Production</strong>, I animate, edit, and create cinematic content for a growing community.
+                        Whether I am building backend architectures with Django, engineering interactive web
+                        applications, or analyzing digital forensics, I approach every challenge with the discipline of
+                        an NCC cadet and the curiosity of a builder. Welcome to my creative archive.
                     </p>
 
                     <!-- CV BUTTON -->
@@ -499,11 +466,13 @@
                         <li>Configured <strong>Gunicorn</strong> as the production WSGI server replacing Django's dev
                             server.</li>
                         <li>Wrote a <code>build.sh</code> script to automate <code>collectstatic</code> and
-                            <code>migrate</code> on every deploy.</li>
+                            <code>migrate</code> on every deploy.
+                        </li>
                         <li>Deployed to <strong>Render</strong> using <code>render.yaml</code> for
                             infrastructure-as-code configuration.</li>
                         <li>Managed secrets securely — <code>SECRET_KEY</code> auto-generated by Render,
-                            <code>DEBUG=False</code> enforced via env vars.</li>
+                            <code>DEBUG=False</code> enforced via env vars.
+                        </li>
                         <li>Used <strong>SQLite</strong> with <code>dj-database-url</code>, keeping the setup portable
                             and Postgres-ready.</li>
                         <li>Sole developer — handled backend, deployment pipeline, static serving, and production config

@@ -45,6 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clickSound = new Audio("/static/images/Select.mp3");
     clickSound.volume = 0.4;
+    const click2Sound = new Audio("/static/images/Select_2.mp3");
+    click2Sound.volume = 0.4;
 
     const steps = Array.from(document.querySelectorAll(".notebook-checkbox"));
     let currentIndex = 0;
@@ -391,6 +393,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Skip to Folio ---
     window.skipToFolio = function () {
+        safeSeek(click2Sound, 0);
+        click2Sound.play().catch(() => {});
+
         skipFolioActive = true;
         isCinemaInterrupted = true;
         if (cinemaTimer) clearTimeout(cinemaTimer);
