@@ -173,11 +173,23 @@
     }
 
     // Show/hide END button — only on page 3, only in normal mode
+    let blinkTimeout = null;
     function updateEndButton() {
         if (currentPage === 2 && state === 'normal') {
             site.classList.add('page3-normal');
+            if (endNormalBtn && !endNormalBtn.classList.contains('blink-active')) {
+                endNormalBtn.classList.add('blink-active');
+                clearTimeout(blinkTimeout);
+                blinkTimeout = setTimeout(() => {
+                    endNormalBtn.classList.remove('blink-active');
+                }, 5000);
+            }
         } else {
             site.classList.remove('page3-normal');
+            if (endNormalBtn) {
+                endNormalBtn.classList.remove('blink-active');
+                clearTimeout(blinkTimeout);
+            }
         }
     }
 
@@ -590,13 +602,7 @@
     /* ─────────── MOUSE INTERACTIVE ─────────── */
 
     // 1. Navigation Dots
-    dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => {
-            if (state === 'normal' && idx !== currentPage) {
-                navigateTo(idx);
-            }
-        });
-    });
+    // (Dots are now just visual page indicators, click navigation removed)
 
     // 2. Arrow Hints
     if (hintLeft) {

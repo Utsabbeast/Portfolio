@@ -228,8 +228,8 @@ position: absolute;
 }
 
 .terms-text {
-    max-width: 650px; 
-    font-size: clamp(0.85rem, 1.8vh, 1.1rem);
+    max-width: 1200px; 
+    font-size: 25px;
     line-height: 1.6;
     font-weight: bold;
     color: #cccccc; 
