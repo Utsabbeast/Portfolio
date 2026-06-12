@@ -569,7 +569,7 @@ html {
 }
 
 .doc-text {
-    font-size: 65px;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.65);
     line-height: 1.75;
     margin-bottom: 10px;
@@ -856,7 +856,7 @@ img {
 }
 
 .entry-title {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
     color: #fff;
     letter-spacing: 1px;
@@ -864,7 +864,7 @@ img {
 }
 
 .entry-sub {
-    font-size: 30px;
+    font-size: 14px;
     color: var(--text-dim);
     line-height: 1.6;
 }
@@ -895,7 +895,7 @@ img {
 .entry-link {
     color: var(--neon-red);
     text-decoration: none;
-    font-size: 65px;
+    font-size: 13px;
     letter-spacing: 1px;
     transition: color 0.3s;
 }
