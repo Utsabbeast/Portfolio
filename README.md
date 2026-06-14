@@ -3,7 +3,7 @@
 A high-end, immersive digital portfolio experience built with a "Noir/Cinematic" aesthetic.
 
 **Live Site:** [https://ubeast.onrender.com](https://ubeast.onrender.com/)
-**Review From:** [https://ubeast.onrender.com](https://lnkd.in/g-rjQ6Kc)
+**Review From:** [Google From](https://lnkd.in/g-rjQ6Kc)
 
 
 ---
