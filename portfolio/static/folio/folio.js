@@ -490,7 +490,7 @@
             v.classList.remove('visible');
         });
 
-        playSelect();
+        playSelect2();
 
         const scroll = document.getElementById('credits-scroll');
         if (scroll) {
