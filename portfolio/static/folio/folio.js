@@ -34,9 +34,9 @@
     /* ─────────── CONFIG ─────────── */
     const VIDEO_SOURCES = {
         bg: [
-            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610063/SideMain1_ijqmdu.webm",
-            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610062/SideMain2_pr7cyh.webm",
-            "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778610062/SideMain3_plnu0i.webm"
+            "https://res.cloudinary.com/da8mnqeej/video/upload/v1781383592/SideMain1_ijqmdu.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/v1781436478/SideMain2_pr7cyh.webm",
+            "https://res.cloudinary.com/da8mnqeej/video/upload/v1781436425/SideMain3_plnu0i.webm"
         ],
         inspect: [
             "https://res.cloudinary.com/da8mnqeej/video/upload/q_auto,f_auto/v1778603333/Top1_mwmsly.webm",
