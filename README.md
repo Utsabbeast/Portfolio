@@ -33,6 +33,23 @@ This project leverage several amazing libraries and assets:
 
 ---
 
+## 💻 Technical Architecture & Coding
+Beyond the visuals, the project features a robust and highly customized codebase:
+
+- **Frontend Logic (Vanilla JS)**: 
+  - **State Management**: A custom finite-state machine handles complex transitions between "Normal" navigation and the deep "Inspect" modes.
+  - **Media Synchronization**: Precise JavaScript timing to preload, fade, and sync Cloudinary-hosted videos across page changes seamlessly.
+  - **Cinematic Scaling**: Implements a custom viewport scaler (`applyFolioScaler()`) to maintain exact cinematic aspect ratios across all screen sizes.
+  - **Event Handling**: Full support for keyboard navigation (e.g., `Shift+Enter` for credits, arrow keys) and mobile touch-swipe gestures.
+- **Backend & Deployment (Django / Render)**: 
+  - Served via **Gunicorn** in production, with **WhiteNoise** handling the core static assets efficiently.
+  - Built-in `build.sh` pipeline for automating `collectstatic` and database migrations upon deployment.
+  - Deployed on **Render** utilizing `render.yaml` for Infrastructure-as-Code (IaC) configuration.
+- **Advanced Styling (CSS/SVG)**: 
+  - Uses procedural SVG filters (`feTurbulence` and `feDisplacementMap`) for real-time, dynamic "hand-drawn" distortion effects on UI elements.
+
+---
+
 ## ❤️ Special Thanks
 - **Aditya**: Special recognition for contribution and support.
 - **Creative Inspiration**: "Film is a battleground." — Dedicated to the art of cinematic storytelling and visual immersion.
