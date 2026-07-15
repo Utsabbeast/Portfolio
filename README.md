@@ -16,8 +16,9 @@ This project is developed under **Shuriken Production**. It features custom anim
 ## 🛠️ Material Used
 This project leverage several amazing libraries and assets:
 
-- **Core Framework**: [Django](https://wwww.djangoproject.com/) (Python)
-- **3D Graphics**: [Three.js](https://threejs.org/) (Using THREE.Fire and GLTFLoader for hand-drawn volumetric effects)
+- **Core Framework**: [Django](https://www.djangoproject.com/) (Python)
+- **3D Video Scenes**: Created using [Blender](https://www.blender.org/) with open-source 3D models.
+- **Video Editing**: Edited using [Shotcut](https://shotcut.org/) (for adding audio, fixing contrast, and overall post-processing)
 - **Styling**: Vanilla CSS with custom SVG filters (Hand-drawn charcoal noise, film grain, and vignette).
 - **Typography**: 
   - `Anton` (Titles/Headers)
